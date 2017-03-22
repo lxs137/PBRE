@@ -8,11 +8,10 @@
 class Shape{
 public:
     Shape() {}
-    Shape(const Shape& object);
     ~Shape() {}
-    virtual BBox get_BBox(); // 默认得到世界坐标下的包围盒
-    virtual bool intersectP(const Ray &ray);
-    virtual bool intersect(const Ray &ray, float t_hit, IntersectInfo &info);
+    virtual BBox get_BBox() { return BBox(); } // 默认得到世界坐标下的包围盒
+    virtual bool intersectP(const Ray &ray) { return false; }
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) { return false; }
 
 };
 

@@ -8,20 +8,19 @@
 class Ray{
 public:
     //method
-    Ray():min_t(RAY_T_MIN), max_t(INFINITY), depth(0) {
-        o = Point3D();
-        d = Vector3D();
+    Ray():o(), d() {
+        min_t = RAY_T_MIN;
+        max_t = INFINITY;
+        depth = 0;
     }
-    Ray(const Point3D &origin, const Vector3D &direction, int ray_depth=0) {
-        o = Point3D(origin);
-        d = Vector3D(direction);
+    Ray(const Point3D &origin, const Vector3D &direction, int ray_depth=0):o(origin), d(direction) {
         min_t = RAY_T_MIN;
         max_t = INFINITY;
         depth = ray_depth;
     }
-    Ray(const Ray &ray) {
-        o = ray.o, d = ray.d;
-        min_t = ray.min_t, max_t = ray.max_t;
+    Ray(const Ray &ray):o(ray.o), d(ray.d) {
+        min_t = ray.min_t;
+        max_t = ray.max_t;
         depth = ray.depth;
     }
     ~Ray() {}

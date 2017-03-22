@@ -2,6 +2,7 @@
 #define UTIL_GEOMETRY_H
 
 #include <cmath>
+#include "math_func.h"
 
 class Vector3D{
 public:
@@ -194,14 +195,20 @@ public:
     float x, y, z;
 };
 
+class Ray;
 class BBox {
 public:
     // method
     // 默认包围盒 p_min > p_max
-    BBox() {
-        p_min = Point3D(INFINITY, INFINITY, INFINITY);
-        p_max = Point3D(-INFINITY, -INFINITY, -INFINITY);
+    BBox():p_min(INFINITY, INFINITY, INFINITY), p_max(-INFINITY, -INFINITY, -INFINITY) {}
+    BBox(const Point3D &p1, const Point3D &p2) {
+        float x_min = min(p1.x, p2.x), x_max = max(p1.x, p2.x),
+                y_min = min(p1.y, p2.y), y_max = max(p1.y, p2.y),
+                z_min = min(p1.z, p2.z), z_max = max(p1.z, p2.z);
+        p_min = Point3D(x_min, y_min, z_min);
+        p_max = Point3D(x_max, y_max, z_max);
     }
+    bool intersectP(Ray &ray);
 
     // value
     Point3D p_min, p_max;

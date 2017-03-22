@@ -1,8 +1,19 @@
-#ifndef MATH_FUNC_H
-#define MATH_FUNC_H
+//
+// Created by lxs on 17-3-22.
+//
 
-#include <cmath>
+#ifndef UTIL_MATH_FUNC_H
+#define UTIL_MATH_FUNC_H
+
+float min(float a, float b);
+float max(float a, float b);
 
 
+inline float min(float a, float b) {
+    return ((a <= b) ? a : b);
+}
+inline float max(float a, float b) {
+    return ((a > b) ? a : b);
+}
 
-#endif // MATH_FUNC_H
+#endif //UTIL_MATH_FUNC_H
