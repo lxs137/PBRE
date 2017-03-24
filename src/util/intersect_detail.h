@@ -12,9 +12,7 @@ class Shape;
 class IntersectInfo {
 public:
     // method
-    IntersectInfo():hit_p(), hit_n() {
-        shape = NULL;
-    }
+    IntersectInfo():hit_p(), hit_n() {}
     IntersectInfo(const Point3D &p, const Normal &n, Shape *shape_ptr):hit_p(p), hit_n(n) {
         shape = shape_ptr;
     }

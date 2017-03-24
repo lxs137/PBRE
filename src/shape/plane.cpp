@@ -9,7 +9,8 @@ BBox Plane::get_BBox() {
 }
 bool Plane::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
     // t = (plane.p*plane.n - ray.o*plane.n) / (ray.d*plane.n)
-    float parallel_test = Dot(ray.d, this->n);
+    float parallel_test = AbsDot(ray.d, this->n);
+    // 通过平面法向量和光线的方向向量的点乘结果,判断两者是否平行
     if(std::fabs(parallel_test) < 1e-5)
         return false;
     else
@@ -34,10 +35,6 @@ bool Plane::intersectP(const Ray &ray) {
     else
     {
         float t = Dot((this->p - ray.o), this->n) / Dot(ray.d, this->n);
-        if(t > this->Epsilon && t > ray.min_t && t < ray.max_t)
-        {
-            return true;
-        } else
-            return false;
+        return (t > this->Epsilon && t > ray.min_t && t < ray.max_t);
     }
 }
