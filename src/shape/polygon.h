@@ -31,6 +31,9 @@ public:
             n = Normal(Cross(v1, v2));
         }
     }
+    std::vector<Point3D> get_vertics() {
+        return vertics;
+    }
     virtual BBox get_BBox();
     virtual bool intersectP(const Ray &ray);
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);

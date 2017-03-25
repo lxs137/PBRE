@@ -44,13 +44,26 @@ int main(int argv, char** argc)
         IntersectInfo info;
         float hit_t;
 
+        double start_t = clock(), end_t;
         for(Polygon polygon : polygons)
         {
             if(polygon.intersect(test_ray, hit_t, info))
             {
-                std::cout<<"intersect: ("<<info.hit_p.x<<","<<info.hit_p.y<<","<<info.hit_p.z<<")"<<std::endl;
+                std::cout<<"Intersect: "<<std::endl;
+                std::vector<Point3D> hit_polygon_points = polygon.get_vertics();
+                std::cout<<"Hit polygon: ";
+                for(Point3D p : hit_polygon_points)
+                    std::cout<<"("<<p.x<<","<<p.y<<","<<p.z<<")  ";
+                std::cout<<std::endl;
+                std::cout<<"Hit point: ("<<info.hit_p.x<<","<<info.hit_p.y<<","<<info.hit_p.z<<")"<<std::endl;
             }
         }
+        end_t = clock();
+#ifdef WIN32
+        std::cout<<"Cost time: "<<(end_t - start_t)/CLK_TCK<<" s\n";
+#elif linux
+        std::cout<<"Cost time: "<<(end_t - start_t)/CLOCKS_PER_SEC<<" s\n";
+#endif
     }
 
     return 0;
