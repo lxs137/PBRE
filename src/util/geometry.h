@@ -8,7 +8,7 @@ class Vector3D{
 public:
     // method
     Vector3D() { x=y=z=0; }
-    Vector3D(float xx, float yy, float zz):x(xx), y(xx), z(zz) {}
+    Vector3D(float xx, float yy, float zz):x(xx), y(yy), z(zz) {}
     Vector3D(const Vector3D &v){
         x = v.x, y = v.y, z = v.z;
     }
@@ -132,7 +132,7 @@ class Normal {
 public:
     // method
     Normal() { x=y=z=0; }
-    Normal(float xx, float yy, float zz):x(xx), y(xx), z(zz) {}
+    Normal(float xx, float yy, float zz):x(xx), y(yy), z(zz) {}
     Normal(const Normal &n){
         x = n.x, y = n.y, z = n.z;
     }

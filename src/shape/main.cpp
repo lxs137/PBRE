@@ -3,35 +3,55 @@
 #include <string>
 #include <string.h>
 #include <fstream>
+#include <exception>
 #include "polygon.h"
-#include "../util/intersect_detail.h"
+#include "../util/file_helper.h"
 int main(int argv, char** argc)
 {
-    std::vector<Point3D> vertics;
-//    if(argv < 1 || (argv > 1 && strcmp(argc[1], "--help"))) {
-//        std::cout<<"--points (x,y,z)"<<std::endl;
-//        return 0;
-//    }
-//    else if(strcmp(argc[1], "--file")){
-//        std::ifstream if_file(std::string(argc[2]));
-//
-//    }
-//    else if(strcmp(argc[1], "--points")){
-//        int points_n = argv - 1;
-//
-//    }
-    vertics.push_back(Point3D(1,0,0));
-    vertics.push_back(Point3D(0,1,0));
-    vertics.push_back(Point3D(0,0,1));
+    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
+        std::cout<<"usage:"<<std::endl;
+        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
+        return 0;
+    }
+    else if(strcmp(argc[1], "--file") == 0){
+        std::vector<Polygon> polygons;
+        parse_obj2polygon(polygons, argc[2]);
+        Ray test_ray;
+        if(strcmp(argc[3], "--ray") == 0)
+        {
+            try {
+                std::string o_str(argc[4]);
+                std::string d_str(argc[5]);
+                o_str = o_str.substr(1, o_str.size() - 2);
+                d_str = d_str.substr(1, d_str.size() - 2);
+                unsigned long index1 = o_str.find(','), index2 = o_str.rfind(',');
+                float x, y, z;
+                x = std::stof(o_str.substr(0, index1));
+                y = std::stof(o_str.substr(index1 + 1, index2 - index1 - 1));
+                z = std::stof(o_str.substr(index2 + 1));
+                Point3D origin(x, y, z);
+                index1 = d_str.find(','), index2 = d_str.rfind(',');
+                x = std::stof(d_str.substr(0, index1));
+                y = std::stof(d_str.substr(index1 + 1, index2 - index1 - 1));
+                z = std::stof(d_str.substr(index2 + 1));
+                Vector3D direction(x, y, z);
+                test_ray = Ray(origin, direction);
+            } catch (std::exception &e)
+            {
+                std::cout<<"Error coordinate syntax"<<std::endl;
+            }
+        }
+        IntersectInfo info;
+        float hit_t;
 
-    Point3D ray_o = Point3D(0,0,0);
-    Vector3D ray_d = Vector3D(1, 0, 0);
-    Ray m_ray = Ray(ray_o, ray_d);
+        for(Polygon polygon : polygons)
+        {
+            if(polygon.intersect(test_ray, hit_t, info))
+            {
+                std::cout<<"intersect: ("<<info.hit_p.x<<","<<info.hit_p.y<<","<<info.hit_p.z<<")"<<std::endl;
+            }
+        }
+    }
 
-    Polygon m_polygon = Polygon(vertics);
-    IntersectInfo info;
-    float hit_t;
-    std::cout<<"intersect:"<<m_polygon.intersect(m_ray, hit_t, info)<<std::endl;
-    std::cout<<"("<<info.hit_p.x<<","<<info.hit_p.y<<","<<info.hit_p.z<<")"<<std::endl;
     return 0;
 }

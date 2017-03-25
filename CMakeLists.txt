@@ -11,4 +11,4 @@ AUX_SOURCE_DIRECTORY(./src/shape DIR_SRC)
 AUX_SOURCE_DIRECTORY(./src/util DIR_SRC)
 
 # build
-ADD_EXECUTABLE(rendering ${DIR_SRC})
+ADD_EXECUTABLE(intersect_test ${DIR_SRC})

@@ -7,9 +7,9 @@
 
 class Shape{
 public:
-    virtual BBox get_BBox() { return BBox(); } // 默认得到世界坐标下的包围盒
-    virtual bool intersectP(const Ray &ray) { return false; }
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) { return false; }
+    virtual BBox get_BBox() = 0; // 默认得到世界坐标下的包围盒
+    virtual bool intersectP(const Ray &ray) = 0 ;
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) = 0;
 
 };
 

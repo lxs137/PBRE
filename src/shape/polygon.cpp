@@ -75,7 +75,7 @@ bool Polygon::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
             Point3D hit_p = ray(t_hit);
             float hit_p_x = hit_p.x, hit_p_y = hit_p.y;
             int intersect_num = 0;
-            int vertics_num = this->vertics.size();
+            int vertics_num = (int)(this->vertics.size());
             // 以投影后的交点为起点,向x轴正方向做一条射线
             // 根据射线与多边形交点个数的奇偶性判断改点是否在多边形内
             Point2D p1, p2 = {vertics[0].x, vertics[0].y};
