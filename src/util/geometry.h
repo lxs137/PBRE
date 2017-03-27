@@ -208,7 +208,12 @@ public:
         p_min = Point3D(x_min, y_min, z_min);
         p_max = Point3D(x_max, y_max, z_max);
     }
-    bool intersectP(Ray &ray);
+    BBox(const BBox &box) {
+        p_min = box.p_min;
+        p_max = box.p_max;
+    }
+    bool intersectP(const Ray &ray);
+    bool point_inside(const Point3D &p);
 
     // value
     Point3D p_min, p_max;
@@ -270,6 +275,10 @@ inline float distance_square(Point3D &p1, Point3D &p2){
 inline float distance(Point3D &p1, Point3D &p2){
     Vector3D dis = p1 - p2;
     return dis.length();
+}
+inline bool BBox::point_inside(const Point3D &p) {
+    return (p.x > p_min.x && p.y > p_min.y && p.z > p_min.z
+            && p.x < p_max.x && p.y < p_max.y && p.z < p_max.z);
 }
 
 
