@@ -236,13 +236,13 @@ inline float Dot(const Normal &n, const Vector3D &v){
     return (v.x*n.x + v.y*n.y + v.z*n.z);
 }
 inline float AbsDot(const Vector3D &v1, const Vector3D &v2){
-    return std::abs(Dot(v1, v2));
+    return std::fabs(Dot(v1, v2));
 }
 inline float AbsDot(const Vector3D &v, const Normal &n){
-    return std::abs(Dot(v, n));
+    return std::fabs(Dot(v, n));
 }
 inline float AbsDot(const Normal &n, const Vector3D &v){
-    return std::abs(Dot(v, n));
+    return std::fabs(Dot(v, n));
 }
 inline Vector3D Cross(const Vector3D &v1, const Vector3D &v2){
     float x = v1.y*v2.z - v1.z*v2.y;

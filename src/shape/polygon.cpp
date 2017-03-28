@@ -42,9 +42,9 @@ bool Polygon::intersectP(const Ray &ray) {
                   || (-dy1 > INTERSECT_TEST_PRECISION && -dy2 > INTERSECT_TEST_PRECISION))
                    continue;
                // 判断多边形是否有顶点与射线相交
-               else if((std::abs(dy1) < INTERSECT_TEST_PRECISION && std::abs(dy2) < INTERSECT_TEST_PRECISION)
-                       || (std::abs(dy1) < INTERSECT_TEST_PRECISION && p1.y < p2.y)
-                       || (std::abs(dy2) < INTERSECT_TEST_PRECISION && p2.y < p1.y))
+               else if((std::fabs(dy1) < INTERSECT_TEST_PRECISION && std::fabs(dy2) < INTERSECT_TEST_PRECISION)
+                       || (std::fabs(dy1) < INTERSECT_TEST_PRECISION && p1.y < p2.y)
+                       || (std::fabs(dy2) < INTERSECT_TEST_PRECISION && p2.y < p1.y))
                    continue;
                else
                    intersect_num ++;
@@ -87,9 +87,9 @@ bool Polygon::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
                     || (-dy1 > INTERSECT_TEST_PRECISION && -dy2 > INTERSECT_TEST_PRECISION))
                     continue;
                     // 判断多边形是否有顶点与射线相交
-                else if ((std::abs(dy1) < INTERSECT_TEST_PRECISION && std::abs(dy2) < INTERSECT_TEST_PRECISION)
-                         || (std::abs(dy1) < INTERSECT_TEST_PRECISION && p1.y < p2.y)
-                         || (std::abs(dy2) < INTERSECT_TEST_PRECISION && p2.y < p1.y))
+                else if ((std::fabs(dy1) < INTERSECT_TEST_PRECISION && std::fabs(dy2) < INTERSECT_TEST_PRECISION)
+                         || (std::fabs(dy1) < INTERSECT_TEST_PRECISION && p1.y < p2.y)
+                         || (std::fabs(dy2) < INTERSECT_TEST_PRECISION && p2.y < p1.y))
                     continue;
                 else
                     intersect_num++;
