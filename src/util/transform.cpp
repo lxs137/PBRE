@@ -20,7 +20,7 @@ Vector3D Transform::operator()(const Vector3D &v) {
 Normal Transform::operator()(const Normal &n) {
     return Normal(inverse.m[0][0]*n.x + inverse.m[1][0]*n.y + inverse.m[2][0]*n.y,
                   inverse.m[0][1]*n.x + inverse.m[1][1]*n.y + inverse.m[2][1]*n.y,
-                  inverse.m[0][2]*n.x + inverse.m[1][2]*n.y + inverse.m[2][2]*n.y,);
+                  inverse.m[0][2]*n.x + inverse.m[1][2]*n.y + inverse.m[2][2]*n.y);
 }
 Ray Transform::operator()(const Ray &ray) {
     return Ray((*this)(ray.o), (*this)(ray.d));
