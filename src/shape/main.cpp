@@ -9,11 +9,12 @@
 #include "../util/transform.h"
 int main(int argv, char** argc)
 {
-    Matrix4_4 matrix(1,0,0,0,
-                     0,2,0,0,
-                     0,0,3,0,
-                     0,0,0,1);
+    Matrix4_4 matrix(-1,-1,-2,3,
+                     -3,2,5,-5,
+                     3,2,1,-4,
+                     4,-3,-2,-1);
     Matrix4_4 inverse = matrix.Inverse();
+    float a = matrix.Norm();
     inverse.Norm();
 //    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
 //        std::cout<<"usage:"<<std::endl;
