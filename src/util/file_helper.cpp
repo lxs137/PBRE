@@ -141,3 +141,8 @@ void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename)
 
 }
 
+void write_png_file(int image_x, int image_y, float rgb[], std::string filename)
+{
+
+}
+
