@@ -51,7 +51,7 @@ public:
                 new_matrix.m[i][j] = m[i][j] - matrix.m[i][j];
         return new_matrix;
     }
-    Matrix4_4 operator*(const Matrix4_4 &matrix) {
+    Matrix4_4 operator*(const Matrix4_4 &matrix) const {
         Matrix4_4 mul;
         float s;
         for(int i = 0; i < 4; i++)
@@ -100,7 +100,7 @@ public:
     Transform():matrix(), inverse() {}
     Transform(const Transform &trans):matrix(trans.matrix), inverse(trans.inverse) {}
     Transform(const Matrix4_4 &m, const Matrix4_4 &m_inverse):matrix(m), inverse(m_inverse) {}
-    Transform Inverse() {
+    Transform Inverse() const {
         return Transform(inverse, matrix);
     }
     Transform operator*(const Transform &t2);

@@ -11,6 +11,7 @@ float min(float a, float b);
 float max(float a, float b);
 float Radians(float degree);
 float Degree(float radians);
+int Clamp(int value, int low, int high);
 
 
 inline float min(float a, float b) {
@@ -23,7 +24,15 @@ inline float Radians(float degree) {
     return (degree*PI/180.0f);
 }
 inline float Degree(float radians) {
-    return (radians*180.0f/Pi);
+    return (radians*180.0f/PI);
+}
+inline int Clamp(int value, int low, int high) {
+    if(value <= low)
+        return low;
+    else if(value >= high)
+        return high;
+    else
+        return value;
 }
 
 #endif //UTIL_MATH_FUNC_H

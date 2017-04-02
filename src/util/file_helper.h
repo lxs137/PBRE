@@ -6,9 +6,11 @@
 #define UTIL_FILE_HELPER_H
 
 #include <vector>
+#include <string>
 #include "../shape/polygon.h"
 
 void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename);
-void write_png_file(int image_x, int image_y, float rgb[], const std::string &filename);
+void write_png_file(int image_x, int image_y, int **rgb, const std::string &filename);
+unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data);
 
 #endif //UTIL_FILE_HELPER_H

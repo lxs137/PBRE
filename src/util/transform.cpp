@@ -5,7 +5,7 @@
 #include "transform.h"
 
 Transform Transform::operator*(const Transform &t2) {
-    Matrix4_4 new_matrix = this->matrix*t2.matrix, new_inver = t2.inverse*this->inverse;
+    Matrix4_4 new_matrix = this->matrix*(t2.matrix), new_inver = t2.inverse*(this->inverse);
     return Transform(new_matrix, new_inver);
 }
 

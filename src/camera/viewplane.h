@@ -27,8 +27,8 @@ public:
     ViewPlane(int x, int y, const std::string &file) {
         x_resolution = x, y_resolution = y;
         pixels = new Pixel* [y_resolution];
-        for(int j = 0; j < y_resolution; j++)
-            pixels[j] = new Pixel [x_resolution];
+        for(int i = 0; i < y_resolution; i++)
+            pixels[i] = new Pixel [x_resolution];
         image_name = file;
     }
     ~ViewPlane() {
@@ -36,8 +36,12 @@ public:
             delete [] pixels[j];
         delete []pixels;
     }
-    static void write_image(ImageFormat format = PNG) {
-        float rgb[];
+    void write_image(ImageFormat format = PNG) {
+        int **rgb;
+        int pixels_num = x_resolution*y_resolution;
+        rgb = new int* [pixels_num];
+        for(int i = 0; i < pixels_num; i++)
+            rgb[i] = new int [3];
         // TODO xyz2rgb function
         switch(format)
         {

@@ -16,7 +16,7 @@ PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Ve
     // fov为弧度制, fov为沿y方向上的视角大小
     // 将y方向投影到[-1, 1]
     float perspective_scale = 1.f/(tanf(0.5f*Radians(y_fov_degree)));
-    camera2Screen = Scale(perspective_scale, perspective, 1.f)*Transform(perspective, perspective.Inverse());
+    camera2Screen = Scale(perspective_scale, perspective_scale, 1.f)*Transform(perspective, perspective.Inverse());
     screen2Camera = camera2Screen.Inverse();
 
     // 透视投影的缩放将y方向投影到[-1, 1], 还需计算投影后x方向上的取值范围
