@@ -42,12 +42,14 @@ public:
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 new_matrix.m[i][j] = m[i][j] + matrix.m[i][j];
+        return new_matrix;
     }
     Matrix4_4 operator-(const Matrix4_4 &matrix) {
         Matrix4_4 new_matrix;
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 new_matrix.m[i][j] = m[i][j] - matrix.m[i][j];
+        return new_matrix;
     }
     Matrix4_4 operator*(const Matrix4_4 &matrix) {
         Matrix4_4 mul;
@@ -60,18 +62,21 @@ public:
                     s += m[i][k] * matrix.m[k][j];
                 mul.m[i][j] = s;
             }
+        return mul;
     }
     Matrix4_4 operator*(const float f) {
         Matrix4_4 new_matrix;
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 new_matrix.m[i][j] = m[i][j]*f;
+        return new_matrix;
     }
     Matrix4_4 operator/(const float f) {
         Matrix4_4 new_matrix;
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 new_matrix.m[i][j] = m[i][j]/f;
+        return new_matrix;
     }
     Matrix4_4 Inverse();
     float Norm();
@@ -95,7 +100,10 @@ public:
     Transform():matrix(), inverse() {}
     Transform(const Transform &trans):matrix(trans.matrix), inverse(trans.inverse) {}
     Transform(const Matrix4_4 &m, const Matrix4_4 &m_inverse):matrix(m), inverse(m_inverse) {}
-
+    Transform Inverse() {
+        return Transform(inverse, matrix);
+    }
+    Transform operator*(const Transform &t2);
     Point3D operator()(const Point3D &p);
     Vector3D operator()(const Vector3D &v);
     Normal operator()(const Normal &n);

@@ -4,6 +4,11 @@
 
 #include "transform.h"
 
+Transform Transform::operator*(const Transform &t2) {
+    Matrix4_4 new_matrix = this->matrix*t2.matrix, new_inver = t2.inverse*this->inverse;
+    return Transform(new_matrix, new_inver);
+}
+
 Point3D Transform::operator()(const Point3D &p) {
     float p_array[4] = {p.x, p.y, p.z, 1.f}, p_trans_array[4];
     this->matrix.trans(p_array, p_trans_array);
