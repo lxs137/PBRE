@@ -82,19 +82,37 @@ unsigned int crc32(const unsigned char *data, int length)
 
 // type(ptr) = unsigned char*; type(data) = int
 #define WRITE_DATA_1(ptr,data) *ptr=(unsigned char)(data),ptr++
-#define WRITE_DATA_4(ptr,data) WRITE_DATA_1(ptr,data>>24),WRITE_DATA_1(ptr,data>>16),\
-WRITE_DATA_1(ptr,data>>8),WRITE_DATA_1(ptr,data)
+#define WRITE_DATA_4(ptr,data) WRITE_DATA_1(ptr,(data)>>24),WRITE_DATA_1(ptr,(data)>>16),\
+WRITE_DATA_1(ptr,(data)>>8),WRITE_DATA_1(ptr,(data))
+
 
 // 参考资料 http://www.360doc.com/content/11/0428/12/1016783_112894280.shtml
+// 官方标准 https://www.w3.org/TR/PNG/
 // 生成一个最简单的png文件, 只含有png文件格式规定的关键数据块
 // 关键数据块: 文件头数据块(IHDR), 图像数据块(IDAT), 图像结束数据块(IEND)
 // 数据块格式: 长度(4B) + 数据块类型名(4B) + 数据 + CRC校验码(4B)
 // len(IHDR) = 13+12 Byte; len(IEND) = 12 Byte
-unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data) {
+unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data, int *file_data_len) {
+    int line_size = png_x * 3 + 1;
+    unsigned char *pixel_data = new unsigned char [png_y * (png_x * 3 + 1)];
+    int line_first_index = 0;
+    for(int i = 0; i < png_y; i++)
+    {
+        line_first_index = i*line_size;
+        pixel_data[line_first_index] = 0;
+        for(int j = 1; j < line_size; j++)
+            pixel_data[line_first_index + j] = image_data[line_first_index - i + j - 1];
+    }
     int IDAT_len = 0;
-    // TODO calculate IDAT length
-    unsigned char* file_date = new unsigned char [8 + 25 + 12+IDAT_len + 12 ];
-    unsigned char* write_ptr = file_date;
+    unsigned char *zlib_data = stbi_zlib_compress(pixel_data, png_y*line_size, &IDAT_len, 8);
+    delete []pixel_data;
+    if(!zlib_data)
+        return NULL;
+
+    *file_data_len = 8 + 25 + 12+IDAT_len + 12;
+    unsigned char* file_data = new unsigned char [*file_data_len];
+
+    unsigned char* write_ptr = file_data;
     unsigned char* crc_temp_ptr;
     // 写入png文件头
     // 文件头: {137, 80, 78, 71, 13, 10, 26, 10}
@@ -138,6 +156,11 @@ unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data
     WRITE_DATA_1(write_ptr,'D');
     WRITE_DATA_1(write_ptr,'A');
     WRITE_DATA_1(write_ptr,'T');
+    memcpy(write_ptr, zlib_data, (size_t)IDAT_len);
+    write_ptr += IDAT_len;
+    delete []zlib_data;
+    // CRC校验
+    WRITE_DATA_4(write_ptr,crc32(crc_temp_ptr,IDAT_len));
 
     // 写入IEND数据块
     WRITE_DATA_1(write_ptr,0);
@@ -154,7 +177,7 @@ unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data
     WRITE_DATA_1(write_ptr,130);
 
     // 检查是否数据被正确写入
-    if(write_ptr != file_date+sizeof(file_date))
+    if(write_ptr != file_data + *file_data_len)
         return NULL;
-    return file_date;
+    return file_data;
 }

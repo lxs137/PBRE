@@ -9,13 +9,21 @@
 #include "../util/transform.h"
 int main(int argv, char** argc)
 {
-    Matrix4_4 matrix(-1,-1,-2,3,
-                     -3,2,5,-5,
-                     3,2,1,-4,
-                     4,-3,-2,-1);
-    Matrix4_4 inverse = matrix.Inverse();
-    float a = matrix.Norm();
-    inverse.Norm();
+    int **rgb;
+    rgb = new int* [100];
+    for(int i = 0; i< 100; i++)
+    {
+        rgb[i] = new int [3];
+        rgb[i][0] = 250, rgb[i][1] = 0, rgb[i][2] = 0;
+    }
+    write_png_file(1, 100, rgb, "output.png");
+//    Matrix4_4 matrix(-1,-1,-2,3,
+//                     -3,2,5,-5,
+//                     3,2,1,-4,
+//                     4,-3,-2,-1);
+//    Matrix4_4 inverse = matrix.Inverse();
+//    float a = matrix.Norm();
+//    inverse.Norm();
 //    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
 //        std::cout<<"usage:"<<std::endl;
 //        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
