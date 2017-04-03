@@ -6,17 +6,23 @@
 #include <exception>
 #include "polygon.h"
 #include "../util/file_helper.h"
-#include "../util/transform.h"
+//#include "../util/transform.h"
 int main(int argv, char** argc)
 {
+    int x_resolution = 200, y_resolution = 200;
+    int pixel_size = y_resolution*x_resolution*3;
     int **rgb;
-    rgb = new int* [100];
-    for(int i = 0; i< 100; i++)
+    rgb = new int* [pixel_size];
+    for(int i = 0; i < pixel_size; i++)
     {
         rgb[i] = new int [3];
         rgb[i][0] = 250, rgb[i][1] = 0, rgb[i][2] = 0;
     }
-    write_png_file(1, 100, rgb, "output.png");
+    write_png_file(x_resolution, y_resolution, rgb, "output.png");
+    for(int i = 0; i < pixel_size; i++)
+        delete []rgb[i];
+    delete []rgb;
+//    stbi_write_png("output.png", 1, 100, 3, rgb, 3);
 //    Matrix4_4 matrix(-1,-1,-2,3,
 //                     -3,2,5,-5,
 //                     3,2,1,-4,

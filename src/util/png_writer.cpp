@@ -124,11 +124,12 @@ unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data
     WRITE_DATA_1(write_ptr,10);
     WRITE_DATA_1(write_ptr,26);
     WRITE_DATA_1(write_ptr,10);
+
     // 写入IHDR数据块
-    // 保存指向IHDR数据块头部的指针
-    crc_temp_ptr = write_ptr;
     // 数据块长度为13
     WRITE_DATA_4(write_ptr,13);
+    // 保存指向IHDR数据块头部的指针
+    crc_temp_ptr = write_ptr;
     // 数据块名称为IHDR
     WRITE_DATA_1(write_ptr,'I');
     WRITE_DATA_1(write_ptr,'H');
@@ -144,13 +145,13 @@ unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data
     WRITE_DATA_1(write_ptr,0);
     WRITE_DATA_1(write_ptr,0);
     // CRC校验
-    WRITE_DATA_4(write_ptr,crc32(crc_temp_ptr,13));
+    WRITE_DATA_4(write_ptr,crc32(crc_temp_ptr,17));
 
     // 写入图像数据块
-    // 保存指向图像数据块头部的指针
-    crc_temp_ptr = write_ptr;
     // 写入数据块长度
     WRITE_DATA_4(write_ptr,IDAT_len);
+    // 保存指向图像数据块头部的指针
+    crc_temp_ptr = write_ptr;
     // 数据块名称为IDAT
     WRITE_DATA_1(write_ptr,'I');
     WRITE_DATA_1(write_ptr,'D');
@@ -158,9 +159,9 @@ unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data
     WRITE_DATA_1(write_ptr,'T');
     memcpy(write_ptr, zlib_data, (size_t)IDAT_len);
     write_ptr += IDAT_len;
-    delete []zlib_data;
+    free(zlib_data);
     // CRC校验
-    WRITE_DATA_4(write_ptr,crc32(crc_temp_ptr,IDAT_len));
+    WRITE_DATA_4(write_ptr,crc32(crc_temp_ptr,IDAT_len+4));
 
     // 写入IEND数据块
     WRITE_DATA_1(write_ptr,0);
