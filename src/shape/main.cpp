@@ -9,7 +9,7 @@
 //#include "../util/transform.h"
 int main(int argv, char** argc)
 {
-    int x_resolution = 200, y_resolution = 200;
+    int x_resolution = 100, y_resolution = 100;
     int pixel_size = y_resolution*x_resolution*3;
     int **rgb;
     rgb = new int* [pixel_size];
