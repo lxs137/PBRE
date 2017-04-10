@@ -65,7 +65,7 @@ void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename)
             }
             // 有些obj文件点的坐标有四维
             if(xyz.size() >= 3)
-                points.push_back(Point3D(xyz[0], xyz[1], xyz[2]));
+                points.emplace_back(xyz[0], xyz[1], xyz[2]);
             else
             {
                 std::cout<<"Error point coordinate"<<std::endl;
@@ -134,7 +134,7 @@ void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename)
         {
             polygon_vertics.push_back(points[index - 1]);
         }
-        shape.push_back(Polygon(polygon_vertics));
+        shape.emplace_back(polygon_vertics);
     }
 
 }
