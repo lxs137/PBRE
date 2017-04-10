@@ -6,7 +6,7 @@
 #define CAMERA_VIEWPLANE_H
 
 #include <string>
-#include "../util/file_helper.h"
+#include "../util/file_util/file_helper.h"
 
 struct Pixel
 {

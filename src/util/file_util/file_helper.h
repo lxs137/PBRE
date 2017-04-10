@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include "../shape/polygon.h"
+#include "../../shape/polygon.h"
 
 void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename);
 void write_png_file(int image_x, int image_y, int **rgb, const std::string &filename);
