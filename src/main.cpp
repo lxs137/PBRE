@@ -3,41 +3,37 @@
 #include <string>
 #include <string.h>
 #include <fstream>
-#include <exception>
-#include "polygon.h"
-#include "../util/file_util/file_helper.h"
-//#include "../util/transform.h"
+#include "shape/polygon.h"
+#include "shape/mesh/mesh.h"
+#include "util/file_util/file_helper.h"
 int main(int argv, char** argc)
 {
-    int x_resolution = 100, y_resolution = 100;
-    int pixel_size = y_resolution*x_resolution*3;
-    int **rgb;
-    rgb = new int* [pixel_size];
-    for(int i = 0; i < pixel_size; i++)
-    {
-        rgb[i] = new int [3];
-        rgb[i][0] = 250, rgb[i][1] = 0, rgb[i][2] = 0;
-    }
-    write_png_file(x_resolution, y_resolution, rgb, "output.png");
-    for(int i = 0; i < pixel_size; i++)
-        delete []rgb[i];
-    delete []rgb;
-//    stbi_write_png("output.png", 1, 100, 3, rgb, 3);
-//    Matrix4_4 matrix(-1,-1,-2,3,
-//                     -3,2,5,-5,
-//                     3,2,1,-4,
-//                     4,-3,-2,-1);
-//    Matrix4_4 inverse = matrix.Inverse();
-//    float a = matrix.Norm();
-//    inverse.Norm();
-//    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
-//        std::cout<<"usage:"<<std::endl;
-//        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
-//        return 0;
+//    int x_resolution = 100, y_resolution = 100;
+//    int pixel_size = y_resolution*x_resolution*3;
+//    int **rgb;
+//    rgb = new int* [pixel_size];
+//    for(int i = 0; i < pixel_size; i++)
+//    {
+//        rgb[i] = new int [3];
+//        rgb[i][0] = 250, rgb[i][1] = 0, rgb[i][2] = 0;
 //    }
-//    else if(strcmp(argc[1], "--file") == 0){
-//        std::vector<Polygon> polygons;
-//        parse_obj2polygon(polygons, argc[2]);
+//    write_png_file(x_resolution, y_resolution, rgb, "output.png");
+//    for(int i = 0; i < pixel_size; i++)
+//        delete []rgb[i];
+//    delete []rgb;
+    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
+        std::cout<<"usage:"<<std::endl;
+        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
+        return 0;
+    }
+    else if(strcmp(argc[1], "--file") == 0){
+        std::vector<Polygon> polygons;
+        double parse_start = clock(), parse_end;
+        Transform transform = Translate(Vector3D(1, 1, -1));
+        Mesh *mesh = create_mesh_from_obj(transform, argc[2]);
+        parse_end = clock();
+        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
+        delete mesh;
 //        Ray test_ray;
 //        if(strcmp(argc[3], "--ray") == 0)
 //        {
@@ -86,7 +82,7 @@ int main(int argv, char** argc)
 //#elif linux
 //        std::cout<<"Cost time: "<<(end_t - start_t)/CLOCKS_PER_SEC<<" s\n";
 //#endif
-//    }
-//
-//    return 0;
+    }
+
+    return 0;
 }

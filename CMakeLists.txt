@@ -8,9 +8,12 @@ SET(CMAKE_CXX_STANDARD 11)
 #INCLUDE_DIRECTORIES(./src)
 # source directory
 AUX_SOURCE_DIRECTORY(./src/shape DIR_SRC)
+AUX_SOURCE_DIRECTORY(./src/shape/mesh DIR_SRC)
 AUX_SOURCE_DIRECTORY(./src/util DIR_SRC)
+AUX_SOURCE_DIRECTORY(./src/util/file_util DIR_SRC)
 AUX_SOURCE_DIRECTORY(./src/camera DIR_SRC)
 AUX_SOURCE_DIRECTORY(./src/png_test.cpp DIR_SRC)
+AUX_SOURCE_DIRECTORY(./src DIR_SRC)
 
 # build
 ADD_EXECUTABLE(intersect_test ${DIR_SRC})
