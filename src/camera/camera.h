@@ -6,7 +6,7 @@
 #define CAMERA_CAMERA_H
 
 #include "viewplane.h"
-#include "sampler.h"
+#include "sample.h"
 #include "../util/transform.h"
 #include "../util/geometry.h"
 

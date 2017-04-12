@@ -18,7 +18,7 @@ public:
                     camera2Screen(), raster2Camera(), camera2Raster() {}
     PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
                   float y_fov_degree, float d, ViewPlane *vp);
-    virtual void generate_ray(CameraSampler &sample, Ray &ray);
+    virtual void generate_ray(CameraSample &sample, Ray &ray);
 private:
     Transform raster2Screen, screen2Raster;
     Transform screen2Camera, camera2Screen;

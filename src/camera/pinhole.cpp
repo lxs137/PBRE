@@ -31,7 +31,7 @@ PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Ve
     camera2Raster = screen2Raster*camera2Screen;
 }
 
-void PinHoleCamera::generate_ray(CameraSampler &sample, Ray &ray) {
+void PinHoleCamera::generate_ray(CameraSample &sample, Ray &ray) {
     Point3D sample_p(sample.x, sample.y, 0.f);
     // 计算相机坐标系下的光线参数
     Point3D ray_o = Point3D(0.f, 0.f, 0.f);
