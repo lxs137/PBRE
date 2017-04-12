@@ -5,19 +5,29 @@
 #ifndef UTIL_MATH_FUNC_H
 #define UTIL_MATH_FUNC_H
 
+#define INTERSECT_TEST_PRECISION 1e-3
+
 const float PI = 3.14159f;
 
-float min(float a, float b);
-float max(float a, float b);
+float min(const float a, const float b);
+int min(const int a, const int b);
+float max(const float a, const float b);
+int max(const int a, const int b);
 float Radians(float degree);
 float Degree(float radians);
 int Clamp(int value, int low, int high);
 
 
-inline float min(float a, float b) {
+inline float min(const float a, const float b) {
     return ((a <= b) ? a : b);
 }
-inline float max(float a, float b) {
+inline int min(const int a, const int b) {
+    return ((a <= b) ? a : b);
+}
+inline float max(const float a, const float b) {
+    return ((a > b) ? a : b);
+}
+inline int max(const int a, const int b) {
     return ((a > b) ? a : b);
 }
 inline float Radians(float degree) {

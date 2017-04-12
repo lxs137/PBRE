@@ -39,8 +39,5 @@ bool BBox::intersectP(const Ray &ray) {
 
     t0 = max(x_t0, max(y_t0, z_t0));
     t1 = min(x_t1, min(y_t1, z_t1));
-    if(t0 < t1 && t1 > ray.min_t)
-        return true;
-    else
-        return false;
+    return (t0 < t1 && t1 > ray.min_t);
 }

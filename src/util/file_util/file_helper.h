@@ -11,7 +11,7 @@
 #include "../../shape/polygon.h"
 #include "../../shape/mesh/mesh.h"
 
-Mesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename);
+TriMesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename);
 //void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename);
 void write_png_file(int image_x, int image_y, int **rgb, const std::string &filename);
 unsigned char* get_png_file_data(int png_x, int png_y, unsigned char *image_data, int *file_data_len);

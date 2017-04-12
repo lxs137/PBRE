@@ -17,7 +17,7 @@ BBox Polygon::get_BBox() {
 bool Polygon::intersectP(const Ray &ray) {
     float parallel_test = AbsDot(ray.d, this->n);
     // 当多边形所在平面与光线平行时,多边形与光线一点没有交点
-    if(parallel_test < 1e-5)
+    if(parallel_test < INTERSECT_TEST_PRECISION)
         return false;
     else
     {
@@ -28,7 +28,7 @@ bool Polygon::intersectP(const Ray &ray) {
             Point3D hit_p = ray(hit_t);
             float hit_p_x = hit_p.x, hit_p_y = hit_p.y;
             int intersect_num = 0;
-            int vertics_num = this->vertics.size();
+            int vertics_num = (int)(this->vertics.size());
             // 以投影后的交点为起点,向x轴正方向做一条射线
             // 根据射线与多边形交点个数的奇偶性判断改点是否在多边形内
             Point2D p1, p2 = {vertics[0].x, vertics[0].y};
@@ -49,11 +49,7 @@ bool Polygon::intersectP(const Ray &ray) {
                else
                    intersect_num ++;
             }
-            if(intersect_num % 2 == 0)
-                return false;
-            else{
-                return true;
-            }
+            return (intersect_num % 2 != 0);
         } else
             return false;
     }

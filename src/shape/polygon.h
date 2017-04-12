@@ -5,7 +5,7 @@
 #ifndef SHAPE_POLYGON_H
 #define SHAPE_POLYGON_H
 
-#define INTERSECT_TEST_PRECISION 1e-2
+
 
 #include <vector>
 #include "shape.h"

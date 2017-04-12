@@ -30,10 +30,12 @@ int main(int argv, char** argc)
         std::vector<Polygon> polygons;
         double parse_start = clock(), parse_end;
         Transform transform = Translate(Vector3D(1, 1, -1));
-        Mesh *mesh = create_mesh_from_obj(transform, argc[2]);
+        TriMesh *mesh = create_mesh_from_obj(transform, argc[2]);
         parse_end = clock();
         std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
         delete mesh;
+        parse_end = clock();
+        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
 //        Ray test_ray;
 //        if(strcmp(argc[3], "--ray") == 0)
 //        {

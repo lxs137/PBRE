@@ -25,7 +25,6 @@ public:
     Point3D hit_p;
     Normal hit_n;
     Shape *shape;
-
 };
 
 #endif //UTIL_INTERSECT_DETAIL_H

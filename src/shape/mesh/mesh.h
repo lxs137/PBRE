@@ -11,23 +11,25 @@
 #include <vector>
 #include <array>
 
-class Mesh : Shape
+class TriMesh : Shape
 {
 public:
-    Mesh():Shape() {}
-    Mesh(const Mesh &mesh);
-    Mesh(int nvert, int ntri, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
+    // method
+    TriMesh():Shape() {}
+    TriMesh(const TriMesh &mesh);
+    TriMesh(int nvert, int nface, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
          std::vector<Normal> &ns, std::vector<std::array<float, 2>> &texture);
+    void Triangulate(std::vector<std::vector<int>> &faces, int points_per_face);
     virtual BBox get_BBox(); // 默认得到世界坐标下的包围盒
     virtual bool intersectP(const Ray &ray);
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
-    ~Mesh() {
+    ~TriMesh() {
         delete []vertics;
         delete []index;
         delete []normals;
         delete []tex_coord;
     }
-private:
+    // value
     int num_vertic, num_tri;
     Point3D *vertics;
     std::array<int, 3> *index;

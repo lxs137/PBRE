@@ -141,7 +141,7 @@ void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename)
 
 }
 
-Mesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename)
+TriMesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename)
 {
     std::ifstream if_file(filename);
     if(!if_file)
@@ -254,15 +254,16 @@ Mesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename)
                     }
                     break;
             }
-            if(vertice_index.size() > 3) {
-                std::cout<<"Too much vertics in a face."<<std::endl;
-                return NULL;
-            }
             faces.push_back(vertice_index);
         }
     }
     if_file.close();
-    return new Mesh((int)points.size(), (int)faces.size(), points, faces, ns, texture);
+    if(!faces.empty() && faces[0].size() > 3)
+        std::cout<<"OBJ Model need triangulate.\n";
+    int point_num = (int)points.size();
+    for(int i = 0; i < point_num; i++)
+        points[i] = obj_to_world(points[i]);
+    return new TriMesh(point_num, (int)faces.size(), points, faces, ns, texture);
 }
 
 

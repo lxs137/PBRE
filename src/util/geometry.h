@@ -213,7 +213,9 @@ public:
         p_max = box.p_max;
     }
     bool intersectP(const Ray &ray);
-    bool point_inside(const Point3D &p);
+    bool check_point_inside(const Point3D &p);
+    BBox Union(const BBox &b1, const BBox &b2);
+    void update(const Point3D &p);
 
     // value
     Point3D p_min, p_max;
@@ -276,9 +278,28 @@ inline float distance(Point3D &p1, Point3D &p2){
     Vector3D dis = p1 - p2;
     return dis.length();
 }
-inline bool BBox::point_inside(const Point3D &p) {
+inline bool BBox::check_point_inside(const Point3D &p) {
     return (p.x > p_min.x && p.y > p_min.y && p.z > p_min.z
             && p.x < p_max.x && p.y < p_max.y && p.z < p_max.z);
+}
+inline BBox BBox::Union(const BBox &b1, const BBox &b2) {
+    BBox b;
+    const Point3D &b1_min = b1.p_min, &b1_max = b1.p_max, &b2_min = b2.p_min, &b2_max = b2.p_max;
+    b.p_min.x = min(b1_min.x, b2_min.x);
+    b.p_min.y = min(b1_min.y, b2_min.y);
+    b.p_min.z = min(b1_min.z, b2_min.z);
+    b.p_max.x = max(b1_max.x, b2_max.x);
+    b.p_max.y = max(b1_max.y, b2_max.y);
+    b.p_max.z = max(b1_max.z, b2_max.z);
+    return b;
+}
+inline void BBox::update(const Point3D &p) {
+    p_min.x = min(p_min.x, p.x);
+    p_min.y = min(p_min.y, p.y);
+    p_min.z = min(p_min.z, p.z);
+    p_max.x = max(p_max.x, p.x);
+    p_max.y = max(p_max.y, p.y);
+    p_max.z = max(p_max.z, p.z);
 }
 
 
