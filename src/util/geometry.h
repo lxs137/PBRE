@@ -281,9 +281,8 @@ inline float distance(Point3D &p1, Point3D &p2){
     return dis.length();
 }
 inline bool BBox::is_tiny() {
-    if(p_min.x > p_max.x || p_min.y > p_max.y || p_min.z > p_max.z
-       || distance(p_min,p_max) < INTERSECT_TEST_PRECISION)
-        return true;
+    return (p_min.x > p_max.x || p_min.y > p_max.y || p_min.z > p_max.z
+            || distance(p_min,p_max) < BBOX_TINY_TEST);
 }
 inline bool BBox::check_point_inside(const Point3D &p) {
     return (p.x > p_min.x && p.y > p_min.y && p.z > p_min.z
