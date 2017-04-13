@@ -6,6 +6,7 @@
 #define UTIL_MATH_FUNC_H
 
 #define INTERSECT_TEST_PRECISION 1e-3
+#define BBOX_TINY_TEST 1e-2
 
 const float PI = 3.14159f;
 

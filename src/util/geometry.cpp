@@ -6,6 +6,8 @@
 #include "ray.h"
 
 bool BBox::intersectP(const Ray &ray) {
+    if(is_tiny())
+        return false;
     float o_x = ray.o.x, o_y = ray.o.y, o_z = ray.o.z, d_x_1 = 1.0f / ray.d.x,
             d_y_1 = 1.0f / ray.d.y, d_z_1 = 1.0f / ray.d.z;
     float x_t0, x_t1, y_t0, y_t1, z_t0, z_t1, t0, t1;

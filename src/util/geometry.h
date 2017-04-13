@@ -213,6 +213,8 @@ public:
         p_max = box.p_max;
     }
     bool intersectP(const Ray &ray);
+    // 判断包围盒是否为初始化状态或者坍缩为一个点
+    bool is_tiny();
     bool check_point_inside(const Point3D &p);
     BBox Union(const BBox &b1, const BBox &b2);
     void update(const Point3D &p);
@@ -277,6 +279,11 @@ inline float distance_square(Point3D &p1, Point3D &p2){
 inline float distance(Point3D &p1, Point3D &p2){
     Vector3D dis = p1 - p2;
     return dis.length();
+}
+inline bool BBox::is_tiny() {
+    if(p_min.x > p_max.x || p_min.y > p_max.y || p_min.z > p_max.z
+       || distance(p_min,p_max) < INTERSECT_TEST_PRECISION)
+        return true;
 }
 inline bool BBox::check_point_inside(const Point3D &p) {
     return (p.x > p_min.x && p.y > p_min.y && p.z > p_min.z
