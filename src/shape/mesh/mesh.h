@@ -11,7 +11,7 @@
 #include <vector>
 #include <array>
 
-class TriMesh : Shape
+class TriMesh : public Shape
 {
 public:
     // method

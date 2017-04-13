@@ -10,7 +10,7 @@
 class TriMesh;
 
 // 特指mesh中的三角形
-class Triangle : Shape
+class Triangle : public Shape
 {
 public:
     Triangle():owner(nullptr) {}
