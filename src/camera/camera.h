@@ -6,7 +6,7 @@
 #define CAMERA_CAMERA_H
 
 #include "viewplane.h"
-#include "sample.h"
+#include "../sampler/sample.h"
 #include "../util/transform.h"
 #include "../util/geometry.h"
 
@@ -19,7 +19,7 @@ public:
             cam2World(world_to_camera.Inverse()), world2Cam(world_to_camera) {
         view_plane = vp;
     }
-    virtual void generate_ray(CameraSampler &sample, Ray &ray) = 0;
+    virtual void generate_ray(CameraSample &sample, Ray &ray) = 0;
     // value
     ViewPlane *view_plane;
     Transform cam2World, world2Cam;

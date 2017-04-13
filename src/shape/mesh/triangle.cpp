@@ -3,10 +3,11 @@
 //
 
 #include "triangle.h"
+#include "mesh.h"
 
 BBox Triangle::get_BBox() {
-    if(owner == NULL)
-        return NULL;
+    if(owner == nullptr)
+        return BBox();
     BBox b;
     b.update(owner->vertics[v1]);
     b.update(owner->vertics[v2]);
@@ -23,7 +24,7 @@ BBox Triangle::get_BBox() {
 // v = Dot(Q, ray.d)/Dot(P, E2)
 bool Triangle::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
     Point3D &p1 = owner->vertics[v1], &p2 = owner->vertics[v2], &p3 = owner->vertics[v3];
-    Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, e3), Q, T;
+    Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, E3), Q, T;
     float parallel_test = Dot(P, E2), parallel_1, u, v;
     // 判断是否光线与三角形是否平行
     if(std::fabs(parallel_test) < INTERSECT_TEST_PRECISION)
@@ -53,7 +54,7 @@ bool Triangle::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
 
 bool Triangle::intersectP(const Ray &ray) {
     Point3D &p1 = owner->vertics[v1], &p2 = owner->vertics[v2], &p3 = owner->vertics[v3];
-    Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, e3), Q, T;
+    Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, E3), Q, T;
     float parallel_test = Dot(P, E2), parallel_1, u, v;
     // 判断是否光线与三角形是否平行
     if(std::fabs(parallel_test) < INTERSECT_TEST_PRECISION)

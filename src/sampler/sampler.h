@@ -1,0 +1,36 @@
+//
+// Created by lxs on 17-4-13.
+//
+
+#ifndef SAMPLER_SAMPLER_H
+#define SAMPLER_SAMPLER_H
+
+#include "sample.h"
+
+class Sampler
+{
+public:
+    Sampler() {
+        x_start = y_start = x_end = y_end = 0;
+        sp_pw = win_num = 0;
+    }
+    Sampler(int xStart, int xEnd, int yStart, int yEnd, int nwindows, int sample_per_win) {
+        x_start = xStart, x_end = xEnd, y_start = yStart, y_end = yEnd;
+        win_num = nwindows, sp_pw = sample_per_win;
+    }
+    // 获取采样点总数
+    virtual int get_sampler_count() = 0;
+    // 下一个采样窗口, 返回false则所有窗口已被返回过
+    virtual bool next_window() = 0;
+    // 返回为false, 说明要切换到下一个窗口
+    virtual bool get_sample(ComplexSample *sample) = 0;
+
+    // 二维平面上采样点的生成范围
+    int x_start, y_start, x_end, y_end;
+    // 采样子窗口数, 默认情况下一个pixel一个窗口
+    int win_num;
+    // 每个子窗口的采样点数
+    int sp_pw;
+};
+
+#endif //SAMPLER_SAMPLER_H

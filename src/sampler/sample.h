@@ -12,4 +12,11 @@ struct CameraSample
     float len_u, len_v;
 };
 
+struct ComplexSample
+{
+public:
+    ComplexSample():cam() {}
+    CameraSample cam;
+};
+
 #endif //CAMERA_SAMPLER_H

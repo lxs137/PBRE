@@ -6,8 +6,20 @@
 #include "shape/polygon.h"
 #include "shape/mesh/mesh.h"
 #include "util/file_util/file_helper.h"
+#include "sampler/random_sampler.h"
 int main(int argv, char** argc)
 {
+    ComplexSample *complex_sample = new ComplexSample();
+    RandomSampler sampler(0, 10, 1, 10, 10);
+    int i = 0;
+    do
+    {
+        while (sampler.get_sample(complex_sample))
+            std::cout << complex_sample->cam.x << ", " << complex_sample->cam.y << std::endl;
+        std::cout<<"Next Window.\n"<<std::endl;
+        i++;
+    }while(sampler.next_window());
+    std::cout<<i<<std::endl;
 //    int x_resolution = 100, y_resolution = 100;
 //    int pixel_size = y_resolution*x_resolution*3;
 //    int **rgb;
@@ -21,21 +33,21 @@ int main(int argv, char** argc)
 //    for(int i = 0; i < pixel_size; i++)
 //        delete []rgb[i];
 //    delete []rgb;
-    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
-        std::cout<<"usage:"<<std::endl;
-        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
-        return 0;
-    }
-    else if(strcmp(argc[1], "--file") == 0){
-        std::vector<Polygon> polygons;
-        double parse_start = clock(), parse_end;
-        Transform transform = Translate(Vector3D(1, 1, -1));
-        TriMesh *mesh = create_mesh_from_obj(transform, argc[2]);
-        parse_end = clock();
-        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
-        delete mesh;
-        parse_end = clock();
-        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
+//    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
+//        std::cout<<"usage:"<<std::endl;
+//        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;
+//        return 0;
+//    }
+//    else if(strcmp(argc[1], "--file") == 0){
+//        std::vector<Polygon> polygons;
+//        double parse_start = clock(), parse_end;
+//        Transform transform = Translate(Vector3D(1, 1, -1));
+//        TriMesh *mesh = create_mesh_from_obj(transform, argc[2]);
+//        parse_end = clock();
+//        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
+//        delete mesh;
+//        parse_end = clock();
+//        std::cout<<"Cost time: "<<(parse_end - parse_start)/CLOCKS_PER_SEC<<" s\n";
 //        Ray test_ray;
 //        if(strcmp(argc[3], "--ray") == 0)
 //        {
@@ -84,7 +96,7 @@ int main(int argv, char** argc)
 //#elif linux
 //        std::cout<<"Cost time: "<<(end_t - start_t)/CLOCKS_PER_SEC<<" s\n";
 //#endif
-    }
+//    }
 
     return 0;
 }
