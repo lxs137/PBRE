@@ -12,11 +12,14 @@ class Sampler
 public:
     Sampler() {
         x_start = y_start = x_end = y_end = 0;
-        sp_pw = win_num = 0;
+        win_num = 0;
     }
-    Sampler(int xStart, int xEnd, int yStart, int yEnd, int nwindows, int sample_per_win) {
+    Sampler(int xStart, int xEnd, int yStart, int yEnd, int nwindows) {
         x_start = xStart, x_end = xEnd, y_start = yStart, y_end = yEnd;
-        win_num = nwindows, sp_pw = sample_per_win;
+        win_num = nwindows;
+    }
+    bool not_init() {
+        return (x_start == x_end || y_start == y_end || win_num == 0);
     }
     // 获取采样点总数
     virtual int get_sampler_count() = 0;
@@ -29,8 +32,6 @@ public:
     int x_start, y_start, x_end, y_end;
     // 采样子窗口数, 默认情况下一个pixel一个窗口
     int win_num;
-    // 每个子窗口的采样点数
-    int sp_pw;
 };
 
 #endif //SAMPLER_SAMPLER_H

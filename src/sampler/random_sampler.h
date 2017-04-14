@@ -18,12 +18,13 @@ public:
         cur_sample_index = 0;
     }
     RandomSampler(int xStart, int xEnd, int yStart, int yEnd, int sample_per_win)
-            : Sampler(xStart, xEnd, yStart, yEnd, (xEnd-xStart)*(yEnd-yStart), sample_per_win),
+            : Sampler(xStart, xEnd, yStart, yEnd, (xEnd - xStart)*(yEnd - yStart)),
               distribution(0.f, 1.f) {
+        sp_pw = sample_per_win;
         x_pos = x_start, y_pos = y_start;
         cur_sample_index = 0;
-        image_samples.reserve(win_num * sp_pw);
-        len_samples.reserve(win_num * sp_pw);
+        image_samples.reserve((unsigned long)sp_pw);
+        len_samples.reserve((unsigned long)sp_pw);
         generate_samples();
     }
     ~RandomSampler() {
@@ -34,22 +35,22 @@ public:
     }
     // 获取采样点总数
     int get_sampler_count() {
-        return image_samples.size();
+        return (int)image_samples.size();
     }
     // 下一个采样窗口, 返回false则所有窗口已被返回过
     virtual bool next_window();
     // 返回为false, 说明要切换到下一个窗口
     virtual bool get_sample(ComplexSample *sample);
 private:
+    // sample per window
+    int sp_pw;
     // 当前窗口位置
     int x_pos, y_pos;
     std::vector<std::array<float, 2>> image_samples, len_samples;
     int cur_sample_index;
     std::uniform_real_distribution<float> distribution;
     std::random_device device;
-    bool not_init() {
-        return (x_start == x_end || y_start == y_end || sp_pw == 0);
-    }
+
     void generate_samples();
 };
 
