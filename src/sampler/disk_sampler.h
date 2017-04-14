@@ -16,7 +16,7 @@ class DiskSampler : public Sampler
 public:
     DiskSampler():Sampler() {
         x_pos = y_pos = 0;
-        cur_sample_index = 0;
+        len_sample_index = image_sample_index = 0;
     }
     DiskSampler(int xStart, int xEnd, int yStart, int yEnd, float min_distance)
             :Sampler(xStart, xEnd, yStart, yEnd, (xEnd - xStart)*(yEnd - yStart)) {
@@ -24,7 +24,7 @@ public:
         min_dis = min_distance;
         len_sp_pw = image_sp_pw = (int)(1.f / (min_dis * min_dis) + 0.5f);
         x_pos = x_start, y_pos = y_start;
-        cur_sample_index = 0;
+        len_sample_index = image_sample_index = 0;
         image_samples.reserve(image_sp_pw);
         len_samples.reserve(len_sp_pw);
     }
@@ -48,8 +48,7 @@ private:
     void generate_sample();
 };
 
-// 返回值代表产生的采样点数
-int generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
-                            std::vector<std::array, 2> &image_samples);
+void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
+                            std::vector<std::array<float, 2>> &image_samples);
 
 #endif //SAMPLER_DISK_SAMPLER_H

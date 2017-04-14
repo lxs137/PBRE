@@ -20,14 +20,14 @@ bool DiskSampler::next_window() {
     image_samples.clear();
     len_samples.clear();
     image_sample_index = len_sample_index = 0;
-    generate_samples();
+//    generate_samples();
     return true;
 }
 
 void DiskSampler::generate_sample() {
     if(not_init())
         return;
-    image_sp_pw = generate_poisson_sample(x_end - x_start, y_end - y_end, min_dis, 30);
+//    image_sp_pw = generate_poisson_sample(x_end - x_start, y_end - y_end, min_dis, 30);
 
 }
 
@@ -43,7 +43,7 @@ bool DiskSampler::get_sample(ComplexSample *sample) {
     image_sample_index++;
 }
 
-inline float sample_dis_square(std::array<float, 2> &sample1, std::array<float, 2> &sample2)
+inline float sample_dis_square(const std::array<float, 2> &sample1, const std::array<float, 2> &sample2)
 {
     return (sample1[0] - sample2[0])*(sample1[0] - sample2[0])
            + (sample1[1] - sample2[1])*(sample1[1] - sample2[1]);
@@ -52,7 +52,7 @@ inline float sample_dis_square(std::array<float, 2> &sample1, std::array<float, 
 class Grid
 {
 public:
-    Grid(int nx, int ny, float size, float min_distance, std::vector<float, 2> &sample_points) {
+    Grid(int nx, int ny, float size, float min_distance, std::vector<std::array<float, 2>> &sample_points) {
         x_cell_n = nx, y_cell_n = ny, cell_size = size, min_dis_square = min_distance*min_distance;
         points = &sample_points;
         status = new bool*[y_cell_n];
@@ -74,9 +74,9 @@ public:
         int x_index = (int)(point[0] / cell_size), y_index = (int)(point[1] / cell_size);
         if(check_point_neighbourhood(x_index, y_index, point))
             return false;
-        grid[y_index][x_index] = true;
+        status[y_index][x_index] = true;
         points->push_back(point);
-        points_index[y_index][x_index] = points->size() - 1;
+        points_index[y_index][x_index] = (int)points->size() - 1;
         return true;
     }
     bool check_point_neighbourhood(int x_index, int y_index, const std::array<float, 2> &new_point) {
@@ -90,7 +90,7 @@ public:
         for(int i = y_begin; i <= y_end; i++)
             for(int j = x_begin; j <= x_end; j++)
             {
-                if(status[i][j] && sample_dis_square(points[points_index[i][j]], new_point) < min_dis_square)
+                if(status[i][j] && sample_dis_square((*points)[points_index[i][j]], new_point) < min_dis_square)
                     return true;
             }
         return false;
@@ -101,7 +101,7 @@ public:
     bool **status;
     // 相应grid中的点在points这个vector中的序号
     int **points_index;
-    std::vector<std::array, 2> *points;
+    std::vector<std::array<float , 2>> *points;
 };
 
 std::array<float, 2> generate_random_point_around(const std::array<float, 2> &point, float min_dis)
@@ -110,8 +110,8 @@ std::array<float, 2> generate_random_point_around(const std::array<float, 2> &po
     return {point[0] + radius * std::cos(angle), point[1] + radius * std::sin(angle)};
 };
 
-int generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
-                            std::vector<std::array, 2> &image_samples)
+void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
+                            std::vector<std::array<float, 2>> &image_samples)
 {
     float cell_size = min_distance / std::sqrt(min_distance);
     int x_cell_n = (int)(width/cell_size), y_cell_n = (int)(height/cell_size);
@@ -136,7 +136,6 @@ int generate_poisson_sample(int width, int height, float min_distance, int new_p
                 process_list.push(new_point);
         }
     }
-
 }
 
 //inline void put_point_in_grid(bool **grid, float point_x, float point_y, float cell_size)

@@ -1,25 +1,28 @@
 #include <iostream>
 #include <vector>
+#include <array>
 #include <string>
-#include <string.h>
 #include <fstream>
 #include "shape/polygon.h"
 #include "shape/mesh/mesh.h"
 #include "util/file_util/file_helper.h"
-#include "sampler/random_sampler.h"
+#include "sampler/disk_sampler.h"
 int main(int argv, char** argc)
 {
-    ComplexSample *complex_sample = new ComplexSample();
-    RandomSampler sampler(0, 10, 1, 10, 10);
-    int i = 0;
-    do
-    {
-        while (sampler.get_sample(complex_sample))
-            std::cout << complex_sample->cam.x << ", " << complex_sample->cam.y << std::endl;
-        std::cout<<"Next Window.\n"<<std::endl;
-        i++;
-    }while(sampler.next_window());
-    std::cout<<i<<std::endl;
+    std::vector<std::array<float, 2>> samples;
+    generate_poisson_sample(1, 1, 0.002, 30, samples);
+
+//    ComplexSample *complex_sample = new ComplexSample();
+//    RandomSampler sampler(0, 10, 1, 10, 10);
+//    int i = 0;
+//    do
+//    {
+//        while (sampler.get_sample(complex_sample))
+//            std::cout << complex_sample->cam.x << ", " << complex_sample->cam.y << std::endl;
+//        std::cout<<"Next Window.\n"<<std::endl;
+//        i++;
+//    }while(sampler.next_window());
+//    std::cout<<i<<std::endl;
 //    int x_resolution = 100, y_resolution = 100;
 //    int pixel_size = y_resolution*x_resolution*3;
 //    int **rgb;
