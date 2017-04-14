@@ -62,7 +62,7 @@ inline float RandomFloat(const float min, const float max) {
         return min;
     srand(time(nullptr));
     int range = max - min;
-    return (rand() / RAND_MAX * range) + min;
+    return (rand() / (float)RAND_MAX * range) + min;
 }
 
 #endif //UTIL_MATH_FUNC_H

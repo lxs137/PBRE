@@ -10,7 +10,8 @@
 int main(int argv, char** argc)
 {
     std::vector<std::array<float, 2>> samples;
-    generate_poisson_sample(1, 1, 0.002, 30, samples);
+    generate_poisson_sample(100, 200, 0.5, 30, samples);
+    std::cout<<samples.size()<<std::endl;
 
 //    ComplexSample *complex_sample = new ComplexSample();
 //    RandomSampler sampler(0, 10, 1, 10, 10);

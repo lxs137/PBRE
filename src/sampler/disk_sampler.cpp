@@ -5,7 +5,6 @@
 #include "disk_sampler.h"
 #include "../util/math_func.h"
 #include <cmath>
-#include <stack>
 
 bool DiskSampler::next_window() {
     if(not_init())
@@ -116,24 +115,29 @@ void generate_poisson_sample(int width, int height, float min_distance, int new_
     float cell_size = min_distance / std::sqrt(min_distance);
     int x_cell_n = (int)(width/cell_size), y_cell_n = (int)(height/cell_size);
     Grid grid(x_cell_n, y_cell_n, cell_size, min_distance, image_samples);
-    std::stack<std::array<float, 2>> process_list;
+    std::vector<std::array<float, 2>> process_list;
+    process_list.reserve((unsigned long)(x_cell_n * y_cell_n));
     std::array<float, 2> cur_point, new_point;
     // generate random point
     cur_point[0] = RandomFloat(0, width), cur_point[1] = RandomFloat(0, height);
     grid.put_point_in_grid(cur_point);
-    process_list.push(cur_point);
+    process_list.push_back(cur_point);
 
+    int random_point_index;
     while(!process_list.empty())
     {
-        cur_point = process_list.top();
-        process_list.pop();
+        // O(1)复杂度下, 随机取出一个元素
+        random_point_index = RandomInt(0, (int)process_list.size() - 1);
+        cur_point = process_list[random_point_index];
+        process_list[random_point_index] = process_list.back();
+        process_list.pop_back();
         for(int i = 0; i < new_points_count; i++)
         {
             new_point = generate_random_point_around(cur_point, min_distance);
             if(new_point[0] > 0.f && new_point[0] < width
                && new_point[1] > 0.f && new_point[1] < height
                && grid.put_point_in_grid(new_point))
-                process_list.push(new_point);
+                process_list.push_back(new_point);
         }
     }
 }
