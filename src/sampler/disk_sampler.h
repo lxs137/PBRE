@@ -51,4 +51,6 @@ private:
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
                             std::vector<std::array<float, 2>> &image_samples);
 
+std::array<float, 2> generate_random_point_around(const std::array<float, 2> &point, float min_dis);
+
 #endif //SAMPLER_DISK_SAMPLER_H

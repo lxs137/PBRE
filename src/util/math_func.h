@@ -22,6 +22,7 @@ float Degree(const float radians);
 int Clamp(const int value, const int low, const int high);
 int RandomInt(const int min, const int max);
 float RandomFloat(const float min, const float max);
+void update_random_seed();
 
 
 inline float min(const float a, const float b) {
@@ -53,16 +54,17 @@ inline int Clamp(const int value, const int low, const int high) {
 inline int RandomInt(const int min, const int max) {
     if(min >= max)
         return min;
-    srand(time(nullptr));
     int range = max - min + 1;
     return min + (rand() % range);
 }
 inline float RandomFloat(const float min, const float max) {
     if(min >= max)
         return min;
-    srand(time(nullptr));
     int range = max - min;
     return (rand() / (float)RAND_MAX * range) + min;
+}
+inline void update_random_seed() {
+    srand(time(nullptr));
 }
 
 #endif //UTIL_MATH_FUNC_H

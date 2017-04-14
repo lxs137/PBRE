@@ -7,11 +7,37 @@
 #include "shape/mesh/mesh.h"
 #include "util/file_util/file_helper.h"
 #include "sampler/disk_sampler.h"
+#include "util/math_func.h"
 int main(int argv, char** argc)
 {
+//    std::array<float, 2> cur_point = {120.f, 50.f}, new_point;
+//    generate_random_point_around(cur_point, 2.f);
+//    for(int i = 0; i < 20; i++)
+//    {
+//        new_point = generate_random_point_around(cur_point, 2.f);
+//        std::cout<<new_point[0]<<", "<<new_point[1]<<std::endl;
+//    }
+
+
+    int x_resolution = 1280, y_resolution = 720;
     std::vector<std::array<float, 2>> samples;
-    generate_poisson_sample(100, 200, 0.5, 30, samples);
+    generate_poisson_sample(x_resolution, y_resolution, 13.8, 30, samples);
+    int pixel_size = y_resolution * x_resolution * 3;
+    int **rgb;
+    rgb = new int* [pixel_size];
+    for(int i = 0; i < pixel_size; i++)
+    {
+        rgb[i] = new int [3];
+        rgb[i][0] = 0, rgb[i][1] = 0, rgb[i][2] = 0;
+    }
+    int index;
+    for(auto point: samples)
+    {
+        index = ((int)point[1]) * x_resolution + (int)point[0];
+        rgb[index][0] = 255, rgb[index][1] = 255, rgb[index][2] = 255;
+    }
     std::cout<<samples.size()<<std::endl;
+    write_png_file(x_resolution, y_resolution, rgb, "output.png");
 
 //    ComplexSample *complex_sample = new ComplexSample();
 //    RandomSampler sampler(0, 10, 1, 10, 10);

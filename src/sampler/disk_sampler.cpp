@@ -124,6 +124,7 @@ void generate_poisson_sample(int width, int height, float min_distance, int new_
     process_list.push_back(cur_point);
 
     int random_point_index;
+    update_random_seed();
     while(!process_list.empty())
     {
         // O(1)复杂度下, 随机取出一个元素
