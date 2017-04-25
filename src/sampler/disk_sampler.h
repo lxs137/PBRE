@@ -25,8 +25,8 @@ public:
         len_sp_pw = image_sp_pw = (int)(1.f / (min_dis * min_dis) + 0.5f);
         x_pos = x_start, y_pos = y_start;
         len_sample_index = image_sample_index = 0;
-        image_samples.reserve(image_sp_pw);
-        len_samples.reserve(len_sp_pw);
+        image_samples.reserve((unsigned long)image_sp_pw);
+        len_samples.reserve((unsigned long)len_sp_pw);
     }
     // 获取采样点总数
     int get_sampler_count() {
@@ -40,7 +40,7 @@ private:
     // sample per window
     int image_sp_pw, len_sp_pw;
     // 两个采样点之间的最小距离
-    int min_dis;
+    float min_dis;
     int x_pos, y_pos;
     std::vector<std::array<float, 2>> image_samples, len_samples;
     int image_sample_index, len_sample_index;
