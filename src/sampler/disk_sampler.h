@@ -45,7 +45,7 @@ private:
     std::vector<std::array<float, 2>> image_samples, len_samples;
     int image_sample_index, len_sample_index;
 
-    void generate_sample();
+    void generate_samples();
 };
 
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,

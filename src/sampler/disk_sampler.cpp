@@ -19,15 +19,15 @@ bool DiskSampler::next_window() {
     image_samples.clear();
     len_samples.clear();
     image_sample_index = len_sample_index = 0;
-//    generate_samples();
+    generate_samples();
     return true;
 }
 
-void DiskSampler::generate_sample() {
+void DiskSampler::generate_samples() {
     if(not_init())
         return;
-//    image_sp_pw = generate_poisson_sample(x_end - x_start, y_end - y_end, min_dis, 30);
-
+    generate_poisson_sample(1, 1, min_dis, 30, image_samples);
+    image_sp_pw = (int)(image_samples.size());
 }
 
 bool DiskSampler::get_sample(ComplexSample *sample) {
@@ -40,6 +40,7 @@ bool DiskSampler::get_sample(ComplexSample *sample) {
 //    sample->cam.len_u = len_samples[cur_sample_index][0];
 //    sample->cam.len_v = len_samples[cur_sample_index][1];
     image_sample_index++;
+    return true;
 }
 
 inline float sample_dis_square(const std::array<float, 2> &sample1, const std::array<float, 2> &sample2)
@@ -127,7 +128,7 @@ void generate_poisson_sample(int width, int height, float min_distance, int new_
     update_random_seed();
     while(!process_list.empty())
     {
-        // O(1)复杂度下, 随机取出一个元素
+        // 从待处理队列中随机取出一个元素
         random_point_index = RandomInt(0, (int)process_list.size() - 1);
         cur_point = process_list[random_point_index];
         process_list[random_point_index] = process_list.back();
@@ -142,9 +143,3 @@ void generate_poisson_sample(int width, int height, float min_distance, int new_
         }
     }
 }
-
-//inline void put_point_in_grid(bool **grid, float point_x, float point_y, float cell_size)
-//{
-//    int x_index = (int)(point_x / cell_size), y_index = (int)(point_y / cell_size);
-//    grid[y_index][x_index] = true;
-//}
