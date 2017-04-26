@@ -30,6 +30,10 @@ public:
             r[i] = space_ptr;
             space_ptr += line;
         }
+        if(class_n >= 2)
+            build_matrix_r();
+        else
+            r[0] = distance[0];
     }
     ~MultiClassDiskSampler() {
         delete [](r[0]);
