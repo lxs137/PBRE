@@ -16,14 +16,14 @@ bool DiskSampler::next_window() {
     }
     if(y_pos == y_end)
         return false;
-    image_samples.clear();
-    len_samples.clear();
-    image_sample_index = len_sample_index = 0;
     generate_samples();
     return true;
 }
 
 void DiskSampler::generate_samples() {
+    image_samples.clear();
+    len_samples.clear();
+    image_sample_index = len_sample_index = 0;
     if(not_init())
         return;
     generate_poisson_sample(1, 1, min_dis, 30, image_samples);
