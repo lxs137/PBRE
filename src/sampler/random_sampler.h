@@ -40,7 +40,8 @@ public:
     // 下一个采样窗口, 返回false则所有窗口已被返回过
     virtual bool next_window();
     // 返回为false, 说明要切换到下一个窗口
-    virtual bool get_sample(ComplexSample *sample);
+    virtual bool get_sample(ComplexSample &sample);
+    virtual int get_all_samples(std::vector<ComplexSample> &samples);
 private:
     // sample per window
     int sp_pw;

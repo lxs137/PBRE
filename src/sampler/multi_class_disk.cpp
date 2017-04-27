@@ -2,13 +2,79 @@
 // Created by lxs on 17-4-25.
 //
 
-#include "multi_class_disk_sampler.h"
+#include "multi_class_disk.h"
 #include "../util/math_func.h"
 #include <algorithm>
 #include <utility>
 #include <functional>
 
 #define R_EQUAL_MIN 1e-5
+
+bool MultiClassDiskSampler::next_window()
+{
+    if(not_init())
+        return false;
+    x_pos++;
+    if(x_pos == x_end) {
+        x_pos = x_start;
+        y_pos++;
+    }
+    if(y_pos == y_end)
+        return false;
+    generate_samples();
+    return true;
+}
+
+bool MultiClassDiskSampler::get_sample(ComplexSample &sample)
+{
+    return get_sample(0, sample);
+}
+
+bool MultiClassDiskSampler::get_sample(int class_index, ComplexSample &sample)
+{
+    if(not_init())
+        return false;
+    int &sample_index = image_sample_index[class_index];
+    if(sample_index == image_sp_pw[class_index])
+        return false;
+    sample.cam.x = x_pos + (image_samples[class_index])[sample_index][0];
+    sample.cam.y = y_pos + (image_samples[class_index])[sample_index][1];
+    sample_index++;
+    return true;
+}
+
+int MultiClassDiskSampler::get_all_samples(std::vector<ComplexSample> &samples)
+{
+    return get_all_samples(0, samples);
+}
+
+int MultiClassDiskSampler::get_all_samples(int class_index, std::vector<ComplexSample> &samples)
+{
+    if(not_init())
+        return 0;
+    auto &img_samples = image_samples[class_index];
+    int i = 0;
+    for(auto &sample : img_samples)
+    {
+        samples[i].cam.x = x_pos + sample[0];
+        samples[i].cam.y = y_pos + sample[1];
+        i++;
+    }
+    image_sample_index[class_index] = image_sp_pw[class_index];
+    return i;
+}
+
+int MultiClassDiskSampler::get_all_samples(int class_index, ComplexSample *samples) {
+    if(not_init())
+        return 0;
+    auto &img_samples = image_samples[class_index];
+    int n = image_sp_pw[class_index];
+    for(int i = 0; i < n; i++)
+        samples[i].cam.x = img_samples[i][0], samples[i].cam.y = img_samples[i][1];
+    image_sample_index[class_index] = n;
+    return n;
+}
+
 
 void MultiClassDiskSampler::generate_samples()
 {
@@ -17,6 +83,7 @@ void MultiClassDiskSampler::generate_samples()
         image_sp_pw[i] = 0;
         image_sample_index[i] = 0;
     }
+    hard_dart_throwing();
 }
 
 
@@ -90,7 +157,7 @@ void MultiClassDiskSampler::calculate_target_sample(float max_dis)
     delete []rate;
 }
 
-#define ADD_FAIL_TIMES 10
+#define ADD_FAIL_TIMES 20
 
 #define DIS(p1,p2) std::sqrt((p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]))
 
@@ -121,7 +188,7 @@ void MultiClassDiskSampler::hard_dart_throwing()
     std::vector<std::pair<std::vector<std::array<float, 2>>*, int>> ns;
     ns.reserve((unsigned long)target_sample_sum);
 //    std::vector<std::array<float, 2>> *sample_class;
-    bool if_add = true;
+    bool if_add;
     while(add_fail_n < ADD_FAIL_TIMES && n_cur < target_sample_sum)
     {
         // generate new sample
@@ -134,18 +201,26 @@ void MultiClassDiskSampler::hard_dart_throwing()
         ns.clear();
         for(int i = 0; i < class_n; i++)
         {
-            std::vector<std::array<float, 2>> &sample_class = image_samples[i];
+            auto &sample_class = image_samples[i];
             for(int j = 0, n = (int)sample_class.size(); j < n; j++)
             {
-                std::array<float, 2> &s_ = sample_class[j];
+                auto &s_ = sample_class[j];
                 if(DIS(s_,sample) < r[i][class_s]) {
                     ns.push_back(std::make_pair(&sample_class, j));
                     if_add &= false;
                 }
             }
         }
-        if(if_add)
+        if(if_add) {
             add_new_sample(class_s, sample, fill_rate, fill_rate_order);
+            n_cur++;
+        }
+        else
+            add_fail_n++;
     }
 
+    for(int i = 0; i < class_n; i++)
+    {
+        image_sp_pw[i] = (int)(image_samples->size());
+    }
 }

@@ -6,6 +6,7 @@
 #define SAMPLER_SAMPLER_H
 
 #include "sample.h"
+#include <vector>
 
 class Sampler
 {
@@ -26,7 +27,9 @@ public:
     // 下一个采样窗口, 返回false则所有窗口已被返回过
     virtual bool next_window() = 0;
     // 返回为false, 说明要切换到下一个窗口
-    virtual bool get_sample(ComplexSample *sample) = 0;
+    virtual bool get_sample(ComplexSample &sample) = 0;
+    // 得到该窗口所有的采样点, 返回值表示采样点数量
+    virtual int get_all_samples(std::vector<ComplexSample> &samples) = 0;
 
     // 二维平面上采样点的生成范围
     int x_start, y_start, x_end, y_end;

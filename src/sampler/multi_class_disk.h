@@ -2,8 +2,8 @@
 // Created by lxs on 17-4-25.
 //
 
-#ifndef SAMPLER_MULTI_CLASS_DISK_SAMPLER_H
-#define SAMPLER_MULTI_CLASS_DISK_SAMPLER_H
+#ifndef SAMPLER_MULTI_CLASS_DISK_H
+#define SAMPLER_MULTI_CLASS_DISK_H
 
 #include "sampler.h"
 #include <vector>
@@ -40,6 +40,7 @@ public:
             max_dis = r[0][0] = distance[0];
         target_sample_sum = 0;
         calculate_target_sample(max_dis);
+        generate_samples();
     }
     ~MultiClassDiskSampler() {
         delete []image_sp_pw;
@@ -51,6 +52,24 @@ public:
         delete []target_sample_n;
         delete []target_sample_n_1;
     }
+    // 获取采样点总数
+    int get_sampler_count() {
+        int sum = 0;
+        for(int i = 0; i < class_n; i++)
+            sum += image_sp_pw[i];
+        return sum;
+    }
+    int get_sampler_count(int class_index) {
+        return image_sp_pw[class_index];
+    }
+    // 下一个采样窗口, 返回false则所有窗口已被返回过
+    virtual bool next_window();
+    // 返回为false, 说明要切换到下一个窗口
+    virtual bool get_sample(ComplexSample &sample);
+    bool get_sample(int class_index, ComplexSample &sample);
+    // 得到该窗口所有采样点
+    virtual int get_all_samples(std::vector<ComplexSample> &samples);
+    int get_all_samples(int class_index, std::vector<ComplexSample> &samples);
 private:
     // 每种采样类的单窗口采样点数,采样点集合
     int *image_sp_pw;

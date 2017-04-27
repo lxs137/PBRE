@@ -30,17 +30,32 @@ void DiskSampler::generate_samples() {
     image_sp_pw = (int)(image_samples.size());
 }
 
-bool DiskSampler::get_sample(ComplexSample *sample) {
+bool DiskSampler::get_sample(ComplexSample &sample) {
     if(not_init())
         return false;
     if(image_sample_index == image_sp_pw)
         return false;
-    sample->cam.x = image_samples[image_sample_index][0];
-    sample->cam.y = image_samples[image_sample_index][1];
+    sample.cam.x = x_pos + image_samples[image_sample_index][0];
+    sample.cam.y = y_pos + image_samples[image_sample_index][1];
 //    sample->cam.len_u = len_samples[cur_sample_index][0];
 //    sample->cam.len_v = len_samples[cur_sample_index][1];
     image_sample_index++;
     return true;
+}
+
+int DiskSampler::get_all_samples(std::vector<ComplexSample> &samples)
+{
+    if(not_init())
+        return 0;
+    int i = 0;
+    for(auto &sample : image_samples)
+    {
+        samples[i].cam.x = x_pos + sample[0];
+        samples[i].cam.y = y_pos + sample[1];
+        i++;
+    }
+    image_sample_index = image_sp_pw;
+    return i;
 }
 
 inline float sample_dis_square(const std::array<float, 2> &sample1, const std::array<float, 2> &sample2)

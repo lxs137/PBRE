@@ -14,8 +14,6 @@ struct CameraSample
 
 struct ComplexSample
 {
-public:
-    ComplexSample():cam() {}
     CameraSample cam;
 };
 
