@@ -33,9 +33,10 @@ int main(int argv, char** argc)
         int pixel_size = resolution * resolution * 3;
         int **rgb;
         rgb = new int* [pixel_size];
-        for(int i = 0; i < pixel_size; i++)
+        int *ptr = new int [pixel_size*3];
+        for(int i = 0; i < pixel_size; i++, ptr += 3)
         {
-            rgb[i] = new int [3];
+            rgb[i] = ptr;
             rgb[i][0] = 0, rgb[i][1] = 0, rgb[i][2] = 0;
         }
         int index;
@@ -46,6 +47,8 @@ int main(int argv, char** argc)
             rgb[index][0] = 255, rgb[index][1] = 255, rgb[index][2] = 255;
         }
         write_png_file(resolution, resolution, rgb, "output.png");
+        delete [](rgb[0]);
+        delete []rgb;
     }
     else if(strcmp(argc[1], "--class") == 0 && atoi(argc[2]) > 1 && argv >= 6)
     {
@@ -106,6 +109,11 @@ int main(int argv, char** argc)
             memset(rgb[0], 0, RESOLUTION*RESOLUTION*3*sizeof(int));
         }
         write_png_file(RESOLUTION, RESOLUTION, rgb_all, "output_total.png");
+        delete []min_dis;
+        delete [](rgb[0]);
+        delete [](rgb_all[0]);
+        delete []rgb;
+        delete []rgb_all;
 
     }
 
