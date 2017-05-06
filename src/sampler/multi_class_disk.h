@@ -25,10 +25,10 @@ public:
         image_sample_index = new int[class_n];
         distance = new float[class_n];
         r = new float*[class_n];
-        float *space_ptr = new float[class_n*class_n];
+        void *space_ptr = new float[class_n*class_n];
         for(int i = 0, line = sizeof(float)*class_n; i< class_n; i++) {
             distance[i] = min_distance[i];
-            r[i] = space_ptr;
+            r[i] = (float*)space_ptr;
             space_ptr += line;
         }
         target_sample_n = new int [class_n];

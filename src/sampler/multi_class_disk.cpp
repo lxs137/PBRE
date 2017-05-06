@@ -64,17 +64,6 @@ int MultiClassDiskSampler::get_all_samples(int class_index, std::vector<ComplexS
     return i;
 }
 
-int MultiClassDiskSampler::get_all_samples(int class_index, ComplexSample *samples) {
-    if(not_init())
-        return 0;
-    auto &img_samples = image_samples[class_index];
-    int n = image_sp_pw[class_index];
-    for(int i = 0; i < n; i++)
-        samples[i].cam.x = img_samples[i][0], samples[i].cam.y = img_samples[i][1];
-    image_sample_index[class_index] = n;
-    return n;
-}
-
 
 void MultiClassDiskSampler::generate_samples()
 {
@@ -94,15 +83,15 @@ bool distance_compare(std::pair<float, int> d1, std::pair<float, int> d2)
 
 float MultiClassDiskSampler::build_matrix_r()
 {
-    std::pair<float, int> *d_order = new std::pair<float, int>[class_n];
+    std::vector<std::pair<float, int>> d_order;
+    d_order.reserve((size_t)class_n);
     std::vector<int> P;
-    P.reserve(class_n);
+    P.reserve((size_t)(class_n * 2));
     for(int i = 0; i < class_n; i++) {
         r[i][i] = distance[i];
-        d_order[i].first = distance[i];
-        d_order[i].second = i;
+        d_order.push_back(std::make_pair(distance[i], i));
     }
-    std::sort(d_order, d_order + class_n, distance_compare);
+    std::sort(d_order.begin(), d_order.end(), distance_compare);
     int d_order_index[2] = {0, 0};
     for(int i = 0, n = class_n - 1; i < n; i++) {
         if(std::abs(d_order[i].first - d_order[i + 1].first) < R_EQUAL_MIN)
@@ -117,13 +106,14 @@ float MultiClassDiskSampler::build_matrix_r()
     P.push_back(d_order_index[1]);
 
     std::vector<int> C, Pk;
-    C.reserve((unsigned long)class_n);
+    C.reserve((size_t)class_n);
+    Pk.reserve((size_t)class_n);
     float D = 0.f;
     for(int k = 0, P_size = (int)P.size()/2; k < P_size; k++)
     {
         for(int index = P[2 * k], n = P[2 * k + 1]; index <= n; index++)
             Pk.push_back(d_order[index].second);
-        C.insert(C.end(), Pk.begin(), Pk.end());
+        C.insert(C.begin(), Pk.begin(), Pk.end());
         for(int i : Pk)
             D += 1.f/(distance[i] * distance[i]);
         for(int i : Pk) {
@@ -135,7 +125,7 @@ float MultiClassDiskSampler::build_matrix_r()
         Pk.clear();
     }
     float max_dis = d_order[class_n/2].first;
-    delete []d_order;
+//    delete []d_order;
     return max_dis;
 }
 
