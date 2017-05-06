@@ -84,9 +84,9 @@ bool distance_compare(std::pair<float, int> d1, std::pair<float, int> d2)
 float MultiClassDiskSampler::build_matrix_r()
 {
     std::vector<std::pair<float, int>> d_order;
-    d_order.reserve((size_t)class_n);
+    d_order.reserve((unsigned long)class_n);
     std::vector<int> P;
-    P.reserve((size_t)(class_n * 2));
+    P.reserve((unsigned long)(class_n * 2));
     for(int i = 0; i < class_n; i++) {
         r[i][i] = distance[i];
         d_order.push_back(std::make_pair(distance[i], i));
@@ -106,8 +106,8 @@ float MultiClassDiskSampler::build_matrix_r()
     P.push_back(d_order_index[1]);
 
     std::vector<int> C, Pk;
-    C.reserve((size_t)class_n);
-    Pk.reserve((size_t)class_n);
+    C.reserve((unsigned long)class_n);
+    Pk.reserve((unsigned long)class_n);
     float D = 0.f;
     for(int k = 0, P_size = (int)P.size()/2; k < P_size; k++)
     {
@@ -125,7 +125,6 @@ float MultiClassDiskSampler::build_matrix_r()
         Pk.clear();
     }
     float max_dis = d_order[class_n/2].first;
-//    delete []d_order;
     return max_dis;
 }
 
@@ -175,9 +174,9 @@ void MultiClassDiskSampler::hard_dart_throwing()
     std::array<float, 2> sample;
     update_random_seed();
     int class_s;
-    std::vector<std::pair<std::vector<std::array<float, 2>>*, int>> ns;
+    std::vector<std::pair<SAMPLES*, int>> ns;
     ns.reserve((unsigned long)target_sample_sum);
-//    std::vector<std::array<float, 2>> *sample_class;
+//    SAMPLES *sample_class;
     bool if_add;
     while(add_fail_n < ADD_FAIL_TIMES && n_cur < target_sample_sum)
     {
@@ -213,4 +212,7 @@ void MultiClassDiskSampler::hard_dart_throwing()
     {
         image_sp_pw[i] = (int)(image_samples->size());
     }
+
+    delete []fill_rate_order;
+    delete []fill_rate;
 }

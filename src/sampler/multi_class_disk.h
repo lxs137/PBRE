@@ -21,15 +21,15 @@ public:
             : Sampler(xStart, xEnd, yStart, yEnd, (xEnd - xStart)*(yEnd - yStart)) {
         class_n = class_count;
         image_sp_pw = new int [class_n];
-        image_samples = new std::vector<std::array<float, 2>>[class_n];
+        image_samples = new SAMPLES[class_n];
         image_sample_index = new int[class_n];
         distance = new float[class_n];
         r = new float*[class_n];
-        void *space_ptr = new float[class_n*class_n];
-        for(int i = 0, line = sizeof(float)*class_n; i< class_n; i++) {
+        float *space_ptr = new float[class_n * class_n];
+        for(int i = 0; i< class_n; i++) {
             distance[i] = min_distance[i];
-            r[i] = (float*)space_ptr;
-            space_ptr += line;
+            r[i] = space_ptr;
+            space_ptr += class_n;
         }
         target_sample_n = new int [class_n];
         target_sample_n_1 = new float[class_n];
@@ -73,7 +73,7 @@ public:
 private:
     // 每种采样类的单窗口采样点数,采样点集合
     int *image_sp_pw;
-    std::vector<std::array<float, 2>> *image_samples;
+    SAMPLES *image_samples;
     int *image_sample_index;
     int x_pos, y_pos;
 

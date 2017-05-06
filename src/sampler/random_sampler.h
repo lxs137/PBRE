@@ -47,7 +47,7 @@ private:
     int sp_pw;
     // 当前窗口位置
     int x_pos, y_pos;
-    std::vector<std::array<float, 2>> image_samples, len_samples;
+    SAMPLES image_samples, len_samples;
     int cur_sample_index;
     std::uniform_real_distribution<float> distribution;
     std::random_device device;

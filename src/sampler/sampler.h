@@ -7,6 +7,9 @@
 
 #include "sample.h"
 #include <vector>
+#include <array>
+
+typedef std::vector<std::array<float, 2>> SAMPLES;
 
 class Sampler
 {

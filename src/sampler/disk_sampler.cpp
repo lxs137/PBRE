@@ -67,7 +67,7 @@ inline float sample_dis_square(const std::array<float, 2> &sample1, const std::a
 class Grid
 {
 public:
-    Grid(int nx, int ny, float size, float min_distance, std::vector<std::array<float, 2>> &sample_points) {
+    Grid(int nx, int ny, float size, float min_distance, SAMPLES &sample_points) {
         x_cell_n = nx, y_cell_n = ny, cell_size = size, min_dis_square = min_distance*min_distance;
         points = &sample_points;
         status = new bool*[y_cell_n];
@@ -126,12 +126,12 @@ std::array<float, 2> generate_random_point_around(const std::array<float, 2> &po
 };
 
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
-                            std::vector<std::array<float, 2>> &image_samples)
+                            SAMPLES &image_samples)
 {
     float cell_size = min_distance / std::sqrt(min_distance);
     int x_cell_n = (int)(width/cell_size), y_cell_n = (int)(height/cell_size);
     Grid grid(x_cell_n, y_cell_n, cell_size, min_distance, image_samples);
-    std::vector<std::array<float, 2>> process_list;
+    SAMPLES process_list;
     process_list.reserve((unsigned long)(x_cell_n * y_cell_n));
     std::array<float, 2> cur_point, new_point;
     // generate random point

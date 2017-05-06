@@ -44,14 +44,14 @@ private:
     // 两个采样点之间的最小距离
     float min_dis;
     int x_pos, y_pos;
-    std::vector<std::array<float, 2>> image_samples, len_samples;
+    SAMPLES image_samples, len_samples;
     int image_sample_index, len_sample_index;
 
     void generate_samples();
 };
 
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
-                            std::vector<std::array<float, 2>> &image_samples);
+                            SAMPLES &image_samples);
 
 std::array<float, 2> generate_random_point_around(const std::array<float, 2> &point, float min_dis);
 
