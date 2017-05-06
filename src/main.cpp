@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include <string>
 #include <fstream>
+#include <cstring>
 #include "shape/polygon.h"
 #include "util/file_util/file_helper.h"
 #include "sampler/disk_sampler.h"
@@ -17,9 +17,10 @@ int main(int argv, char** argc)
     int pixel_size = RESOLUTION * RESOLUTION * 3;
     int **rgb;
     rgb = new int* [pixel_size];
-    for(int i = 0; i < pixel_size; i++)
+    int *ptr = new int [pixel_size*3];
+    for(int i = 0; i < pixel_size; i++, ptr += 3)
     {
-        rgb[i] = new int [3];
+        rgb[i] = ptr;
         rgb[i][0] = 0, rgb[i][1] = 0, rgb[i][2] = 0;
     }
     ComplexSample point;
@@ -33,15 +34,19 @@ int main(int argv, char** argc)
     };
     for(int i = 0; i < CLASS_N; i++)
     {
+        std::cout<<"Class "<<i<<": "<<sampler.get_sampler_count(i)<<std::endl;
         while(sampler.get_sample(i, point))
         {
             point.cam.x *= RESOLUTION, point.cam.y *= RESOLUTION;
-            std::cout<<point.cam.x<<", "<<point.cam.y<<std::endl;
             index = ((int)point.cam.y) * RESOLUTION + (int)point.cam.x;
             rgb[index][0] = point_color[i][0];
             rgb[index][1] = point_color[i][1];
             rgb[index][2] = point_color[i][2];
         }
+        char file_name[20];
+        std::sprintf(file_name, "output%d.png", i);
+        write_png_file(RESOLUTION, RESOLUTION, rgb, file_name);
+        memset(rgb[0], 0, RESOLUTION*RESOLUTION*3*sizeof(int));
     }
     write_png_file(RESOLUTION, RESOLUTION, rgb, "output.png");
 

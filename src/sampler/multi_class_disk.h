@@ -8,6 +8,7 @@
 #include "sampler.h"
 #include <vector>
 #include <array>
+#include <list>
 
 // Multi-Class Blue Noise Sampling
 // http://www.liyiwei.org/papers/noise-sig10/paper_short.pdf
@@ -17,32 +18,8 @@ public:
         x_pos = y_pos = 0;
         class_n = 0;
     }
-    MultiClassDiskSampler(int xStart, int xEnd, int yStart, int yEnd, int class_count, float min_distance[])
-            : Sampler(xStart, xEnd, yStart, yEnd, (xEnd - xStart)*(yEnd - yStart)) {
-        x_pos = xStart, y_pos = yStart;
-        class_n = class_count;
-        image_sp_pw = new int [class_n];
-        image_samples = new SAMPLES[class_n];
-        image_sample_index = new int[class_n];
-        distance = new float[class_n];
-        r = new float*[class_n];
-        float *space_ptr = new float[class_n * class_n];
-        for(int i = 0; i< class_n; i++) {
-            distance[i] = min_distance[i];
-            r[i] = space_ptr;
-            space_ptr += class_n;
-        }
-        target_sample_n = new int [class_n];
-        target_sample_n_1 = new float[class_n];
-        float max_dis;
-        if(class_n >= 2)
-            max_dis = build_matrix_r();
-        else
-            max_dis = r[0][0] = distance[0];
-        target_sample_sum = 0;
-        calculate_target_sample(max_dis);
-        generate_samples();
-    }
+    MultiClassDiskSampler(int xStart, int xEnd, int yStart,
+                          int yEnd, int class_count, float min_distance[]);
     ~MultiClassDiskSampler() {
         delete []image_sp_pw;
         delete [](r[0]);
@@ -91,7 +68,8 @@ private:
     float build_matrix_r();
     void calculate_target_sample(float max_dis);
     void hard_dart_throwing();
-    void add_new_sample(int i, std::array<float, 2> &p, float *fill_rate, int *order);
+    void add_new_sample(int c, std::list<std::array<float, 2>> &samples,
+                        std::array<float, 2> &p, float *fill_rate, int *order);
     void generate_samples();
 };
 
