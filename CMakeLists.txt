@@ -16,4 +16,4 @@ AUX_SOURCE_DIRECTORY(./src/sampler DIR_SRC)
 AUX_SOURCE_DIRECTORY(./src DIR_SRC)
 
 # build
-ADD_EXECUTABLE(intersect_test ${DIR_SRC})
+ADD_EXECUTABLE(sampler ${DIR_SRC})
