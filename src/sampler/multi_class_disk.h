@@ -19,6 +19,7 @@ public:
     }
     MultiClassDiskSampler(int xStart, int xEnd, int yStart, int yEnd, int class_count, float min_distance[])
             : Sampler(xStart, xEnd, yStart, yEnd, (xEnd - xStart)*(yEnd - yStart)) {
+        x_pos = xStart, y_pos = yStart;
         class_n = class_count;
         image_sp_pw = new int [class_n];
         image_samples = new SAMPLES[class_n];
@@ -90,9 +91,6 @@ private:
     float build_matrix_r();
     void calculate_target_sample(float max_dis);
     void hard_dart_throwing();
-    float fill_rate(int i) {
-        return image_samples[i].size()/target_sample_n[i];
-    }
     void add_new_sample(int i, std::array<float, 2> &p, float *fill_rate, int *order);
     void generate_samples();
 };

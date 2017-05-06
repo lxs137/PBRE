@@ -4,25 +4,17 @@
 #include <string>
 #include <fstream>
 #include "shape/polygon.h"
-#include "shape/mesh/mesh.h"
 #include "util/file_util/file_helper.h"
 #include "sampler/disk_sampler.h"
-#include "util/math_func.h"
+#include "sampler/multi_class_disk.h"
 int main(int argv, char** argc)
 {
-//    std::array<float, 2> cur_point = {120.f, 50.f}, new_point;
-//    generate_random_point_around(cur_point, 2.f);
-//    for(int i = 0; i < 20; i++)
-//    {
-//        new_point = generate_random_point_around(cur_point, 2.f);
-//        std::cout<<new_point[0]<<", "<<new_point[1]<<std::endl;
-//    }
+    const int CLASS_N = 5;
+    const int RESOLUTION = 500;
 
-
-    int x_resolution = 1280, y_resolution = 720;
-    std::vector<std::array<float, 2>> samples;
-    generate_poisson_sample(x_resolution, y_resolution, 13.8, 30, samples);
-    int pixel_size = y_resolution * x_resolution * 3;
+    float min_dis[CLASS_N] = {0.08f, 0.03f, 0.03f, 0.03f, 0.04f};
+    MultiClassDiskSampler sampler = MultiClassDiskSampler(0, 1, 0, 1, CLASS_N, min_dis);
+    int pixel_size = RESOLUTION * RESOLUTION * 3;
     int **rgb;
     rgb = new int* [pixel_size];
     for(int i = 0; i < pixel_size; i++)
@@ -30,39 +22,29 @@ int main(int argv, char** argc)
         rgb[i] = new int [3];
         rgb[i][0] = 0, rgb[i][1] = 0, rgb[i][2] = 0;
     }
+    ComplexSample point;
     int index;
-    for(auto point: samples)
+    int point_color[CLASS_N][3] = {
+            {255, 0, 0},
+            {0, 255, 0},
+            {0, 255, 0},
+            {0, 255, 0},
+            {0, 0, 255}
+    };
+    for(int i = 0; i < CLASS_N; i++)
     {
-        index = ((int)point[1]) * x_resolution + (int)point[0];
-        rgb[index][0] = 255, rgb[index][1] = 255, rgb[index][2] = 255;
+        while(sampler.get_sample(i, point))
+        {
+            point.cam.x *= RESOLUTION, point.cam.y *= RESOLUTION;
+            std::cout<<point.cam.x<<", "<<point.cam.y<<std::endl;
+            index = ((int)point.cam.y) * RESOLUTION + (int)point.cam.x;
+            rgb[index][0] = point_color[i][0];
+            rgb[index][1] = point_color[i][1];
+            rgb[index][2] = point_color[i][2];
+        }
     }
-    std::cout<<samples.size()<<std::endl;
-    write_png_file(x_resolution, y_resolution, rgb, "output.png");
+    write_png_file(RESOLUTION, RESOLUTION, rgb, "output.png");
 
-//    ComplexSample *complex_sample = new ComplexSample();
-//    RandomSampler sampler(0, 10, 1, 10, 10);
-//    int i = 0;
-//    do
-//    {
-//        while (sampler.get_sample(complex_sample))
-//            std::cout << complex_sample->cam.x << ", " << complex_sample->cam.y << std::endl;
-//        std::cout<<"Next Window.\n"<<std::endl;
-//        i++;
-//    }while(sampler.next_window());
-//    std::cout<<i<<std::endl;
-//    int x_resolution = 100, y_resolution = 100;
-//    int pixel_size = y_resolution*x_resolution*3;
-//    int **rgb;
-//    rgb = new int* [pixel_size];
-//    for(int i = 0; i < pixel_size; i++)
-//    {
-//        rgb[i] = new int [3];
-//        rgb[i][0] = 250, rgb[i][1] = 0, rgb[i][2] = 0;
-//    }
-//    write_png_file(x_resolution, y_resolution, rgb, "output.png");
-//    for(int i = 0; i < pixel_size; i++)
-//        delete []rgb[i];
-//    delete []rgb;
 //    if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
 //        std::cout<<"usage:"<<std::endl;
 //        std::cout<<"--file OBJ_file --ray [Ox,Oy,Oz] [Dx,Dy,Dz]"<<std::endl;

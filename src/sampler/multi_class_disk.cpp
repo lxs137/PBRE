@@ -157,9 +157,9 @@ void MultiClassDiskSampler::add_new_sample(int c, std::array<float, 2> &p, float
     image_samples[c].push_back(p);
     fill_rate[c] += target_sample_n_1[c];
     // 使order始终保持从小到大排列
-    for(int i = c + 1; i < class_n; i++)
-        if(fill_rate[c] > fill_rate[i])
-            std::swap(order[i], order[c]);
+    for(int i = 1; i < class_n; i++)
+        if(fill_rate[c] > fill_rate[order[i]])
+            std::swap(order[i - 1], order[i]);
         else
             break;
 }
@@ -168,9 +168,11 @@ void MultiClassDiskSampler::hard_dart_throwing()
 {
     int add_fail_n = 0, n_cur = 0;
     int *fill_rate_order = new int[class_n];
-    for(int i = 0; i < class_n; i++)
-        fill_rate_order[i] = i;
     float *fill_rate = new float[class_n];
+    for(int i = 0; i < class_n; i++) {
+        fill_rate_order[i] = i;
+        fill_rate[i] = 0.f;
+    }
     std::array<float, 2> sample;
     update_random_seed();
     int class_s;
@@ -210,7 +212,7 @@ void MultiClassDiskSampler::hard_dart_throwing()
 
     for(int i = 0; i < class_n; i++)
     {
-        image_sp_pw[i] = (int)(image_samples->size());
+        image_sp_pw[i] = (int)(image_samples[i].size());
     }
 
     delete []fill_rate_order;
