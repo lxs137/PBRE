@@ -214,7 +214,9 @@ void MultiClassDiskSampler::hard_dart_throwing()
     auto *samples_li = new std::list<std::array<float, 2>>[class_n];
     int add_fail_n = 0, n_cur = 0, class_s;
 
-    int add_fail_times = target_sample_sum / 2;
+//    int add_fail_times = 200*(int)std::sqrt(target_sample_sum);
+
+    int add_fail_times = target_sample_sum ;
 
     while(add_fail_n < add_fail_times && n_cur < target_sample_sum)
     {
@@ -238,6 +240,7 @@ void MultiClassDiskSampler::hard_dart_throwing()
         }
         if(if_add) {
             add_new_sample(class_s, samples_li[class_s], sample, fill_rate, fill_rate_order);
+            add_fail_n = 0;
             n_cur++;
         }
         else
@@ -255,10 +258,11 @@ void MultiClassDiskSampler::hard_dart_throwing()
             }
             if(if_remove)
             {
-                std::cout<<"Remove points: "<<ns.size()<<std::endl;
+//                std::cout<<"Remove points: "<<ns.size()<<std::endl;
                 for(auto &over_point : ns)
                     samples_li[over_point.first].erase(over_point.second);
                 add_new_sample(class_s, samples_li[class_s], sample, fill_rate, fill_rate_order);
+                add_fail_n = 0;
                 n_cur++;
             }
         }

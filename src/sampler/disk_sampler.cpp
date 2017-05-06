@@ -128,7 +128,7 @@ std::array<float, 2> generate_random_point_around(const std::array<float, 2> &po
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,
                             SAMPLES &image_samples)
 {
-    float cell_size = min_distance / std::sqrt(min_distance);
+    float cell_size = min_distance / (float)std::sqrt(2);
     int x_cell_n = (int)(width/cell_size), y_cell_n = (int)(height/cell_size);
     Grid grid(x_cell_n, y_cell_n, cell_size, min_distance, image_samples);
     SAMPLES process_list;
