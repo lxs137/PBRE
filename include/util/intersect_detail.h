@@ -2,12 +2,12 @@
 // Created by lxs on 17-3-21.
 //
 
-#ifndef UTIL_INTERSECT_DETAIL_H
-#define UTIL_INTERSECT_DETAIL_H
-
-class Shape;
+#ifndef PBRE_UTIL_INTERSECT_DETAIL_H
+#define PBRE_UTIL_INTERSECT_DETAIL_H
 
 #include "geometry.h"
+
+class Shape;
 
 class IntersectInfo {
 public:
@@ -27,4 +27,4 @@ public:
     Shape *shape;
 };
 
-#endif //UTIL_INTERSECT_DETAIL_H
+#endif //PBRE_UTIL_INTERSECT_DETAIL_H

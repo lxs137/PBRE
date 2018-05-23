@@ -1,16 +1,15 @@
 //
 // Created by lxs on 17-4-25.
 //
+#include "sampler/multiclass_disk.h"
 
-#include "multi_class_disk.h"
-#include "../util/math_func.h"
+#include <iostream>
 #include <algorithm>
 #include <list>
 #include <utility>
 #include <functional>
-#include <iostream>
 
-#define R_EQUAL_MIN 1e-5
+#include "util/math_func.h"
 
 MultiClassDiskSampler::MultiClassDiskSampler(int xStart, int xEnd, int yStart,
                                              int yEnd, int class_count, float *min_distance)
@@ -120,13 +119,13 @@ float MultiClassDiskSampler::build_matrix_r()
     std::vector<int> P;
     P.reserve((unsigned long)(class_n * 2));
     for(int i = 0; i < class_n; i++) {
-        r[i][i] = distance[i];
+        r[i][i] = distance[i] * distance[i];
         d_order.push_back(std::make_pair(distance[i], i));
     }
     std::sort(d_order.begin(), d_order.end(), distance_compare);
     int d_order_index[2] = {0, 0};
     for(int i = 0, n = class_n - 1; i < n; i++) {
-        if(std::abs(d_order[i].first - d_order[i + 1].first) < R_EQUAL_MIN)
+        if(floatEq(d_order[i].first, d_order[i + 1].first))
             d_order_index[1]++;
         else {
             P.push_back(d_order_index[0]);
@@ -151,7 +150,7 @@ float MultiClassDiskSampler::build_matrix_r()
         for(int i : Pk) {
             for(int j : C) {
                 if(i != j)
-                    r[i][j] = r[j][i] = 1.f/std::sqrt(D);
+                    r[i][j] = r[j][i] = 1.f/D;
             }
         }
         Pk.clear();
@@ -179,7 +178,7 @@ void MultiClassDiskSampler::calculate_target_sample(float max_dis)
     delete []rate;
 }
 
-#define DIS(p1,p2) std::sqrt((p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]))
+#define DIS_SQUARE(p1,p2) (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1])
 
 typedef std::list<std::array<float, 2>> SAMPLES_SET;
 
@@ -232,7 +231,7 @@ void MultiClassDiskSampler::hard_dart_throwing()
         {
             auto &samples_item = samples_li[i];
             for(auto it = samples_item.begin(); it != samples_item.end(); it++) {
-                if(DIS((*it),sample) < r[i][class_s]) {
+                if(DIS_SQUARE((*it),sample) < r[i][class_s]) {
                     ns.push_back(std::make_pair(i, it));
                     if_add &= false;
                 }

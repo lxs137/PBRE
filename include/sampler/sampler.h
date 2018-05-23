@@ -2,12 +2,13 @@
 // Created by lxs on 17-4-13.
 //
 
-#ifndef SAMPLER_SAMPLER_H
-#define SAMPLER_SAMPLER_H
+#ifndef PBRE_SAMPLER_SAMPLER_H
+#define PBRE_SAMPLER_SAMPLER_H
 
-#include "sample.h"
 #include <vector>
 #include <array>
+
+#include "sample.h"
 
 typedef std::vector<std::array<float, 2>> SAMPLES;
 
@@ -22,6 +23,7 @@ public:
         x_start = xStart, x_end = xEnd, y_start = yStart, y_end = yEnd;
         win_num = nwindows;
     }
+    virtual ~Sampler() {}
     bool not_init() {
         return (x_start == x_end || y_start == y_end || win_num == 0);
     }
@@ -40,4 +42,4 @@ public:
     int win_num;
 };
 
-#endif //SAMPLER_SAMPLER_H
+#endif //PBRE_SAMPLER_SAMPLER_H

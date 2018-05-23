@@ -2,8 +2,8 @@
 // Created by lxs on 17-3-31.
 //
 
-#ifndef CAMERA_PINHOLE_H
-#define CAMERA_PINHOLE_H
+#ifndef PBRE_CAMERA_PINHOLE_H
+#define PBRE_CAMERA_PINHOLE_H
 
 #define NEAR_PLANE 1e-2f   // 近平面与观察点的距离
 #define FAR_PLANE 1000.f   // 远平面与观察点的距离
@@ -18,6 +18,7 @@ public:
                     camera2Screen(), raster2Camera(), camera2Raster() {}
     PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
                   float y_fov_degree, float d, ViewPlane *vp);
+    virtual ~PinHoleCamera() {}
     virtual void generate_ray(CameraSample &sample, Ray &ray);
 private:
     Transform raster2Screen, screen2Raster;
@@ -25,4 +26,4 @@ private:
     Transform raster2Camera, camera2Raster;
 };
 
-#endif //CAMERA_PINHOLE_H
+#endif //PBRE_CAMERA_PINHOLE_H

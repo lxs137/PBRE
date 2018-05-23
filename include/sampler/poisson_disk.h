@@ -2,12 +2,13 @@
 // Created by lxs on 17-4-13.
 //
 
-#ifndef SAMPLER_DISK_SAMPLER_H
-#define SAMPLER_DISK_SAMPLER_H
+#ifndef PBRE_SAMPLER_POISSON_DISK_H
+#define PBRE_SAMPLER_POISSON_DISK_H
 
-#include "sampler.h"
 #include <vector>
 #include <array>
+
+#include "sampler.h"
 
 // Poisson Disk Sampler
 // http://devmag.org.za/2009/05/03/poisson-disk-sampling/
@@ -55,4 +56,4 @@ void generate_poisson_sample(int width, int height, float min_distance, int new_
 
 std::array<float, 2> generate_random_point_around(const std::array<float, 2> &point, float min_dis);
 
-#endif //SAMPLER_DISK_SAMPLER_H
+#endif //PBRE_SAMPLER_POISSON_DISK_H

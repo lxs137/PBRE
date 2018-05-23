@@ -2,13 +2,14 @@
 // Created by lxs on 17-4-25.
 //
 
-#ifndef SAMPLER_MULTI_CLASS_DISK_H
-#define SAMPLER_MULTI_CLASS_DISK_H
+#ifndef PBRE_SAMPLER_MULTICLASS_DISK_H
+#define PBRE_SAMPLER_MULTICLASS_DISK_H
 
-#include "sampler.h"
 #include <vector>
 #include <array>
 #include <list>
+
+#include "sampler.h"
 
 // Multi-Class Blue Noise Sampling
 // http://www.liyiwei.org/papers/noise-sig10/paper_short.pdf
@@ -59,7 +60,7 @@ private:
     int class_n;
     // 同类采样点之间的最小距离
     float *distance;
-    // 任意种类采样点之间的最小距离
+    // 任意两类采样点之间的最小距离的平方
     float **r;
     int *target_sample_n;
     float *target_sample_n_1;
@@ -73,4 +74,4 @@ private:
     void generate_samples();
 };
 
-#endif //SAMPLER_MULTI_CLASS_DISK_SAMPLER_H
+#endif //PBRE_SAMPLER_MULTICLASS_DISK_H

@@ -3,11 +3,13 @@
 #include <array>
 #include <fstream>
 #include <cstring>
+
 #include "shape/polygon.h"
-#include "util/file_util/file_helper.h"
-#include "sampler/disk_sampler.h"
-#include "sampler/multi_class_disk.h"
+#include "util/file_helper.h"
 #include "util/color_converse.h"
+#include "sampler/poisson_disk.h"
+#include "sampler/multiclass_disk.h"
+
 int main(int argv, char** argc)
 {
     if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
@@ -26,7 +28,7 @@ int main(int argv, char** argc)
         std::cout<<"Generate "<<samples.size()<<" samples."<<std::endl;
 #ifdef WIN32
         std::cout<<"Cost time: "<<(end_t - start_t)/CLK_TCK<<" s\n";
-#elif linux
+#else
         std::cout<<"Cost time: "<<(end_t - start_t)/CLOCKS_PER_SEC<<" s\n";
 #endif
 
@@ -67,7 +69,7 @@ int main(int argv, char** argc)
         end_t = clock();
 #ifdef WIN32
         std::cout<<"Cost time: "<<(end_t - start_t)/CLK_TCK<<" s\n";
-#elif linux
+#else
         std::cout<<"Cost time: "<<(end_t - start_t)/CLOCKS_PER_SEC<<" s\n";
 #endif
         int pixel_size = RESOLUTION * RESOLUTION * 3;
@@ -104,11 +106,11 @@ int main(int argv, char** argc)
                 rgb_all[index][2] = point_color[2];
             }
             char file_name[20];
-            std::sprintf(file_name, "output_class_%d.png", i);
+            std::sprintf(file_name, "output/class_%d.png", i);
             write_png_file(RESOLUTION, RESOLUTION, rgb, file_name);
             memset(rgb[0], 0, RESOLUTION*RESOLUTION*3*sizeof(int));
         }
-        write_png_file(RESOLUTION, RESOLUTION, rgb_all, "output_total.png");
+        write_png_file(RESOLUTION, RESOLUTION, rgb_all, "output/multiclass.png");
         delete []min_dis;
         delete [](rgb[0]);
         delete [](rgb_all[0]);

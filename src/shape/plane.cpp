@@ -2,7 +2,7 @@
 // Created by lxs on 17-3-22.
 //
 
-#include "plane.h"
+#include "shape/plane.h"
 
 BBox Plane::get_BBox() {
     return BBox(Point3D(-INFINITY, -INFINITY, -INFINITY), Point3D(INFINITY, INFINITY, INFINITY));

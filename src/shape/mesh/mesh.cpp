@@ -1,11 +1,9 @@
 //
 // Created by lxs on 17-4-10.
 //
+#include "shape/mesh.h"
 
-#include "mesh.h"
 #include <cstring>
-
-
 
 TriMesh::TriMesh(const TriMesh &mesh):Shape() {
     vertics = NULL, index = NULL, normals = NULL, tex_coord = NULL;
@@ -86,8 +84,12 @@ BBox TriMesh::get_BBox() {
     return bound;
 }
 
-bool TriMesh::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {}
+bool TriMesh::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
+    return false;
+}
 
-bool TriMesh::intersectP(const Ray &ray) {}
+bool TriMesh::intersectP(const Ray &ray) {
+    return false;
+}
 
 

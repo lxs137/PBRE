@@ -2,8 +2,9 @@
 // Created by lxs on 17-4-12.
 //
 
-#include "triangle.h"
-#include "mesh.h"
+#include "shape/triangle.h"
+
+#include "shape/mesh.h"
 
 BBox Triangle::get_BBox() {
     if(owner == nullptr)
@@ -12,6 +13,7 @@ BBox Triangle::get_BBox() {
     b.update(owner->vertics[v1]);
     b.update(owner->vertics[v2]);
     b.update(owner->vertics[v3]);
+    return b;
 }
 
 // Fast,Minimum Storage Ray Triangle Intersection
@@ -49,7 +51,7 @@ bool Triangle::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
     info.shape = this;
     info.hit_n = Normal();
 //    info.hit_n = Normalize(owner->normals[v1] + owner->normals[v2] + owner->normals[v3]);
-
+    return true;
 }
 
 bool Triangle::intersectP(const Ray &ray) {

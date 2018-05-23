@@ -2,28 +2,21 @@
 // Created by lxs on 17-3-22.
 //
 
-#ifndef UTIL_MATH_FUNC_H
-#define UTIL_MATH_FUNC_H
-
-#define INTERSECT_TEST_PRECISION 1e-3
-#define BBOX_TINY_TEST 1e-2
+#ifndef PBRE_UTIL_MATH_FUNC_H
+#define PBRE_UTIL_MATH_FUNC_H
 
 #include <stdlib.h>
 #include <ctime>
 
+#define INTERSECT_TEST_PRECISION 1e-3
+#define BBOX_TINY_TEST 1e-2
+#define FLOAT_EQ_PERCISION 1e-4
+
 const float PI = 3.14159f;
 
-float min(const float a, const float b);
-int min(const int a, const int b);
-float max(const float a, const float b);
-int max(const int a, const int b);
-float Radians(const float degree);
-float Degree(const float radians);
-int Clamp(const int value, const int low, const int high);
-int RandomInt(const int min, const int max);
-float RandomFloat(const float min, const float max);
-void update_random_seed();
-
+inline bool floatEq(const float a, const float b) {
+    return (a - b <= FLOAT_EQ_PERCISION || a - b >= -FLOAT_EQ_PERCISION);
+}
 
 inline float min(const float a, const float b) {
     return ((a <= b) ? a : b);
@@ -67,4 +60,4 @@ inline void update_random_seed() {
     srand(time(nullptr));
 }
 
-#endif //UTIL_MATH_FUNC_H
+#endif //PBRE_UTIL_MATH_FUNC_H

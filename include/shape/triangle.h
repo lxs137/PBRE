@@ -2,10 +2,10 @@
 // Created by lxs on 17-4-3.
 //
 
-#ifndef SHAPE_MESH_TRIANGLE_H
-#define SHAPE_MESH_TRIANGLE_H
+#ifndef PBRE_SHAPE_TRIANGLE_H
+#define PBRE_SHAPE_TRIANGLE_H
 
-#include "../shape.h"
+#include "shape.h"
 
 class TriMesh;
 
@@ -28,4 +28,4 @@ private:
     int v1, v2, v3;
 };
 
-#endif //SHAPE_MESH_TRIANGLE_H
+#endif //PBRE_SHAPE_TRIANGLE_H

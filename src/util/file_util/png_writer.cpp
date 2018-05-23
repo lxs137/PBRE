@@ -1,9 +1,9 @@
 //
 // Created by lxs on 17-4-2.
 //
+#include "util/file_helper.h"
 
 #include <cstring>
-#include "file_helper.h"
 
 // 生成多项式为0xEDB88320
 static const unsigned int crc32_table[256] = {

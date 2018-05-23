@@ -2,7 +2,7 @@
 // Created by lxs on 17-4-13.
 //
 
-#include "random_sampler.h"
+#include "sampler/random.h"
 
 bool RandomSampler::next_window()
 {
@@ -27,7 +27,7 @@ void RandomSampler::generate_samples()
     if(not_init())
         return;
     std::default_random_engine engine(device());
-    float x, y;
+    // float x, y;
     for(int i = 0; i < sp_pw; i++) {
         image_samples[i][0] = distribution(engine);
         image_samples[i][1] = distribution(engine);
@@ -45,6 +45,7 @@ bool RandomSampler::get_sample(ComplexSample &sample)
     sample.cam.len_u = len_samples[cur_sample_index][0];
     sample.cam.len_v = len_samples[cur_sample_index][1];
     cur_sample_index++;
+    return true;
 }
 
 int RandomSampler::get_all_samples(std::vector<ComplexSample> &samples)

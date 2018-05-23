@@ -2,7 +2,7 @@
 // Created by lxs on 17-3-27.
 //
 
-#include "transform.h"
+#include "util/transform.h"
 
 Transform Transform::operator*(const Transform &t2) {
     Matrix4_4 new_matrix = this->matrix*(t2.matrix), new_inver = t2.inverse*(this->inverse);
@@ -167,7 +167,7 @@ Transform Rotate(const Vector3D &v, float radians) {
     m[3][0] = 0;
     m[3][1] = 0;
     m[3][2] = 0;
-    m[3][4] = 1;
+    m[3][3] = 1;
 
     m_inver[0][0] = m[0][0];
     m_inver[0][1] = m[1][0];
@@ -187,7 +187,7 @@ Transform Rotate(const Vector3D &v, float radians) {
     m_inver[3][0] = 0;
     m_inver[3][1] = 0;
     m_inver[3][2] = 0;
-    m_inver[3][4] = 1;
+    m_inver[3][3] = 1;
 
     return Transform(Matrix4_4(m), Matrix4_4(m_inver));
 }

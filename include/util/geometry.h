@@ -1,7 +1,8 @@
-#ifndef UTIL_GEOMETRY_H
-#define UTIL_GEOMETRY_H
+#ifndef PBRE_UTIL_GEOMETRY_H
+#define PBRE_UTIL_GEOMETRY_H
 
 #include <cmath>
+
 #include "math_func.h"
 
 class Vector3D{
@@ -17,10 +18,10 @@ public:
         return (std::isnan(x) || std::isnan(y) || std::isnan(z));
     }
     bool operator== (const Vector3D &v) const {
-        return (x==v.x && y==v.y && z==v.z);
+        return (floatEq(x, v.x) && floatEq(y, v.y) && floatEq(z, v.z));
     }
     bool operator!= (const Vector3D &v) const {
-        return (x!=v.x || y!=v.y || z!=v.z);
+        return (!floatEq(x, v.x) || !floatEq(y, v.y) || !floatEq(z, v.z));
     }
     Vector3D &operator= (const Vector3D &v){
         x = v.x, y = v.y, z = v.z;
@@ -82,10 +83,10 @@ public:
         return (std::isnan(x) || std::isnan(y) || std::isnan(z));
     }
     bool operator== (const Point3D &p) const {
-        return (x==p.x && y==p.y && z==p.z);
+        return (floatEq(x, p.x) && floatEq(y, p.y) && floatEq(z, p.z));
     }
     bool operator!= (const Point3D &p) const {
-        return (x!=p.x || y!=p.y || z!=p.z);
+        return (!floatEq(x, p.x) || !floatEq(y, p.y) || !floatEq(z, p.z));
     }
     Point3D &operator= (const Point3D &p){
         x = p.x, y = p.y, z = p.z;
@@ -144,10 +145,10 @@ public:
         return (std::isnan(x) || std::isnan(y) || std::isnan(z));
     }
     bool operator== (const Normal &n) const {
-        return (x==n.x && y==n.y && z==n.z);
+        return (floatEq(x, n.x) && floatEq(y, n.y) && floatEq(z, n.z));
     }
     bool operator!= (const Normal &n) const {
-        return (x!=n.x || y!=n.y || z!=n.z);
+        return (!floatEq(x, n.x) || !floatEq(y, n.y) || !floatEq(z, n.z));
     }
     Normal &operator= (const Normal &n){
         x = n.x, y = n.y, z = n.z;
@@ -309,4 +310,4 @@ inline void BBox::update(const Point3D &p) {
 }
 
 
-#endif // UTIL_GEOMETRY_H
+#endif // PBRE_UTIL_GEOMETRY_H

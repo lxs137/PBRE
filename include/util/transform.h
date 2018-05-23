@@ -2,8 +2,8 @@
 // Created by lxs on 17-3-27.
 //
 
-#ifndef UTIL_TRANSFORM_H
-#define UTIL_TRANSFORM_H
+#ifndef PBRE_UTIL_TRANSFORM_H
+#define PBRE_UTIL_TRANSFORM_H
 
 #include "geometry.h"
 #include "ray.h"
@@ -124,4 +124,4 @@ Transform RotateZ(float radians);
 Transform Rotate(const Vector3D &v, float radians);
 Transform LookAt(const Point3D &pos, const Point3D &look, const Vector3D &up);
 
-#endif //UTIL_TRANSFORM_H
+#endif //PBRE_UTIL_TRANSFORM_H

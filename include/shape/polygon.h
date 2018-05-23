@@ -2,12 +2,11 @@
 // Created by lxs on 17-3-22.
 //
 
-#ifndef SHAPE_POLYGON_H
-#define SHAPE_POLYGON_H
-
-
+#ifndef PBRE_SHAPE_POLYGON_H
+#define PBRE_SHAPE_POLYGON_H
 
 #include <vector>
+
 #include "shape.h"
 
 struct Point2D{
@@ -39,8 +38,8 @@ public:
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
 
 private:
-    std::vector<Point3D> vertics;
     Normal n;
+    std::vector<Point3D> vertics;
 };
 
-#endif //SHAPE_POLYGON_H
+#endif //PBRE_SHAPE_POLYGON_H

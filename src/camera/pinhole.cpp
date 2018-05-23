@@ -2,7 +2,7 @@
 // Created by lxs on 17-4-2.
 //
 
-#include "pinhole.h"
+#include "camera/pinhole.h"
 
 PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
                              float y_fov_degree, float d, ViewPlane *vp):Camera(LookAt(eye, lookat, up), vp) {

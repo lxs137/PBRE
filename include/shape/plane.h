@@ -2,8 +2,8 @@
 // Created by lxs on 17-3-21.
 //
 
-#ifndef SHAPE_PLANE_H
-#define SHAPE_PLANE_H
+#ifndef PBRE_SHAPE_PLANE_H
+#define PBRE_SHAPE_PLANE_H
 
 #define PLANE_EPSILON 1e-3
 
@@ -36,4 +36,4 @@ private:
     const float Epsilon;
 };
 
-#endif //SHAPE_PLANE_H
+#endif //PBRE_SHAPE_PLANE_H

@@ -2,7 +2,7 @@
 // Created by lxs on 17-3-22.
 //
 
-#include "polygon.h"
+#include "shape/polygon.h"
 
 BBox Polygon::get_BBox() {
     Point3D p_min = Point3D(vertics[0]), p_max = Point3D(vertics[0]);

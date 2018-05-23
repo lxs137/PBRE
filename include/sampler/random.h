@@ -2,13 +2,14 @@
 // Created by lxs on 17-4-13.
 //
 
-#ifndef SAMPLER_RANDOM_SAMPLER_H
-#define SAMPLER_RANDOM_SAMPLER_H
+#ifndef PBRE_SAMPLER_RANDOM_H
+#define PBRE_SAMPLER_RANDOM_H
 
-#include "sampler.h"
 #include <vector>
 #include <array>
 #include <random>
+
+#include "sampler.h"
 
 class RandomSampler : public Sampler
 {
@@ -38,10 +39,10 @@ public:
         return (int)image_samples.size();
     }
     // 下一个采样窗口, 返回false则所有窗口已被返回过
-    virtual bool next_window();
+    bool next_window();
     // 返回为false, 说明要切换到下一个窗口
-    virtual bool get_sample(ComplexSample &sample);
-    virtual int get_all_samples(std::vector<ComplexSample> &samples);
+    bool get_sample(ComplexSample &sample);
+    int get_all_samples(std::vector<ComplexSample> &samples);
 private:
     // sample per window
     int sp_pw;
@@ -55,4 +56,4 @@ private:
     void generate_samples();
 };
 
-#endif //SAMPLER_RANDOM_SAMPLER_H
+#endif //PBRE_SAMPLER_RANDOM_H

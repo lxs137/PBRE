@@ -1,5 +1,5 @@
-#ifndef UTIL_RAY_H
-#define UTIL_RAY_H
+#ifndef PBRE_UTIL_RAY_H
+#define PBRE_UTIL_RAY_H
 
 #define RAY_T_MIN 1e-3
 
@@ -37,4 +37,4 @@ public:
 
 };
 
-#endif // UTIL_RAY_H
+#endif // PBRE_UTIL_RAY_H

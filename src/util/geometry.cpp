@@ -2,8 +2,9 @@
 // Created by lxs on 17-3-22.
 //
 
-#include "geometry.h"
-#include "ray.h"
+#include "util/geometry.h"
+
+#include "util/ray.h"
 
 bool BBox::intersectP(const Ray &ray) {
     if(is_tiny())

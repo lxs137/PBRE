@@ -2,14 +2,15 @@
 // Created by lxs on 17-4-3.
 //
 
-#ifndef SHAPE_MESH_MESH_H
-#define SHAPE_MESH_MESH_H
+#ifndef PBRE_SHAPE_MESH_H
+#define PBRE_SHAPE_MESH_H
 
-#include "../shape.h"
-#include "triangle.h"
-#include "../../util/transform.h"
 #include <vector>
 #include <array>
+
+#include "shape.h"
+#include "triangle.h"
+#include "util/transform.h"
 
 class TriMesh : public Shape
 {
@@ -37,4 +38,4 @@ public:
     std::array<float, 2> *tex_coord;
 };
 
-#endif //SHAPE_MESH_MESH_H
+#endif //PBRE_SHAPE_MESH_H

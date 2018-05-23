@@ -1,10 +1,11 @@
 //
 // Created by lxs on 17-4-13.
 //
+#include "sampler/poisson_disk.h"
 
-#include "disk_sampler.h"
-#include "../util/math_func.h"
 #include <cmath>
+
+#include "util/math_func.h"
 
 bool DiskSampler::next_window() {
     if(not_init())
@@ -122,7 +123,7 @@ public:
 std::array<float, 2> generate_random_point_around(const std::array<float, 2> &point, float min_dis)
 {
     float radius = min_dis * RandomFloat(1.f, 2.f), angle = RandomFloat(0.f, 2 * PI);
-    return {point[0] + radius * std::cos(angle), point[1] + radius * std::sin(angle)};
+    return {{ point[0] + radius * std::cos(angle), point[1] + radius * std::sin(angle) }};
 };
 
 void generate_poisson_sample(int width, int height, float min_distance, int new_points_count,

@@ -2,8 +2,8 @@
 // Created by lxs on 17-4-1.
 //
 
-#ifndef CAMERA_SAMPLER_H
-#define CAMERA_SAMPLER_H
+#ifndef PBRE_SAMPLER_SAMPLE_H
+#define PBRE_SAMPLER_SAMPLE_H
 
 struct CameraSample
 {
@@ -17,4 +17,4 @@ struct ComplexSample
     CameraSample cam;
 };
 
-#endif //CAMERA_SAMPLER_H
+#endif //PBRE_SAMPLER_SAMPLE_H

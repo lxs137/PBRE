@@ -2,18 +2,19 @@
 // Created by lxs on 17-3-30.
 //
 
-#ifndef CAMERA_VIEWPLANE_H
-#define CAMERA_VIEWPLANE_H
+#ifndef PBRE_CAMERA_VIEWPLANE_H
+#define PBRE_CAMERA_VIEWPLANE_H
 
 #include <string>
-#include "../util/file_util/file_helper.h"
+
+#include "util/file_helper.h"
 
 struct Pixel
 {
     float X, Y, Z;
 };
 enum ImageFormat {
-    PNG, BMP, JPG
+    PNG
 };
 
 class ViewPlane
@@ -56,4 +57,4 @@ public:
     std::string image_name;
 };
 
-#endif //CAMERA_VIEWPLANE_H
+#endif //PBRE_CAMERA_VIEWPLANE_H
