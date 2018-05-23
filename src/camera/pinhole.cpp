@@ -4,8 +4,9 @@
 
 #include "camera/pinhole.h"
 
-PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
-                             float y_fov_degree, float d, ViewPlane *vp):Camera(LookAt(eye, lookat, up), vp) {
+namespace pbre {
+  PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
+                               float y_fov_degree, float d, ViewPlane *vp):Camera(LookAt(eye, lookat, up), vp) {
     view_plane = vp;
 
     // 透视投影变换
@@ -23,15 +24,14 @@ PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Ve
     float x_resolution = (float)view_plane->x_resolution, y_resolution = (float)view_plane->y_resolution;
     float scale_x = x_resolution/y_resolution, scale_y = 1.f;
     screen2Raster = Transform(Scale(x_resolution, y_resolution, 1.f)*
-                                      Scale(1.f/(2.f*scale_x), -0.5f, 1.f)*
-                                      Translate(Vector3D(scale_x, -scale_y, 0.f)));
+                              Scale(1.f/(2.f*scale_x), -0.5f, 1.f)*
+                              Translate(Vector3D(scale_x, -scale_y, 0.f)));
     raster2Screen = screen2Raster.Inverse();
-
     raster2Camera = screen2Camera*raster2Screen;
     camera2Raster = screen2Raster*camera2Screen;
-}
+  }
 
-void PinHoleCamera::generate_ray(CameraSample &sample, Ray &ray) {
+  void PinHoleCamera::generate_ray(CameraSample &sample, Ray &ray) {
     Point3D sample_p(sample.x, sample.y, 0.f);
     // 计算相机坐标系下的光线参数
     Point3D ray_o = Point3D(0.f, 0.f, 0.f);
@@ -39,4 +39,6 @@ void PinHoleCamera::generate_ray(CameraSample &sample, Ray &ray) {
     // 转换为世界坐标系下的光线参数
     ray.o = cam2World(ray_o);
     ray.d = cam2World(ray_d);
+  }
+
 }

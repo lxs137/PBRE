@@ -11,35 +11,36 @@
 
 #include "sampler.h"
 
-// Multi-Class Blue Noise Sampling
-// http://www.liyiwei.org/papers/noise-sig10/paper_short.pdf
-class MultiClassDiskSampler: public Sampler {
-public:
+namespace pbre {
+  // Multi-Class Blue Noise Sampling
+  // http://www.liyiwei.org/papers/noise-sig10/paper_short.pdf
+  class MultiClassDiskSampler: public Sampler {
+  public:
     MultiClassDiskSampler() : Sampler() {
-        x_pos = y_pos = 0;
-        class_n = 0;
+      x_pos = y_pos = 0;
+      class_n = 0;
     }
     MultiClassDiskSampler(int xStart, int xEnd, int yStart,
                           int yEnd, int class_count, float min_distance[]);
     ~MultiClassDiskSampler() {
-        delete []image_sp_pw;
-        delete [](r[0]);
-        delete []r;
-        delete []distance;
-        delete []image_sample_index;
-        delete []image_samples;
-        delete []target_sample_n;
-        delete []target_sample_n_1;
+      delete[] image_sp_pw;
+      delete[] r[0];
+      delete[] r;
+      delete[] distance;
+      delete[] image_sample_index;
+      delete[] image_samples;
+      delete[] target_sample_n;
+      delete[] target_sample_n_1;
     }
     // 获取采样点总数
     int get_sampler_count() {
-        int sum = 0;
-        for(int i = 0; i < class_n; i++)
-            sum += image_sp_pw[i];
-        return sum;
+      int sum = 0;
+      for(int i = 0; i < class_n; i++)
+        sum += image_sp_pw[i];
+      return sum;
     }
     int get_sampler_count(int class_index) {
-        return image_sp_pw[class_index];
+      return image_sp_pw[class_index];
     }
     // 下一个采样窗口, 返回false则所有窗口已被返回过
     virtual bool next_window();
@@ -49,7 +50,7 @@ public:
     // 得到该窗口所有采样点
     virtual int get_all_samples(std::vector<ComplexSample> &samples);
     int get_all_samples(int class_index, std::vector<ComplexSample> &samples);
-private:
+  private:
     // 每种采样类的单窗口采样点数,采样点集合
     int *image_sp_pw;
     SAMPLES *image_samples;
@@ -72,6 +73,9 @@ private:
     void add_new_sample(int c, std::list<std::array<float, 2>> &samples,
                         std::array<float, 2> &p, float *fill_rate, int *order);
     void generate_samples();
-};
+  };
+}
+
+
 
 #endif //PBRE_SAMPLER_MULTICLASS_DISK_H

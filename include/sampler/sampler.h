@@ -10,22 +10,23 @@
 
 #include "sample.h"
 
-typedef std::vector<std::array<float, 2>> SAMPLES;
+namespace pbre {
+  typedef std::vector<std::array<float, 2>> SAMPLES;
 
-class Sampler
-{
-public:
+  class Sampler
+  {
+  public:
     Sampler() {
-        x_start = y_start = x_end = y_end = 0;
-        win_num = 0;
+      x_start = y_start = x_end = y_end = 0;
+      win_num = 0;
     }
     Sampler(int xStart, int xEnd, int yStart, int yEnd, int nwindows) {
-        x_start = xStart, x_end = xEnd, y_start = yStart, y_end = yEnd;
-        win_num = nwindows;
+      x_start = xStart, x_end = xEnd, y_start = yStart, y_end = yEnd;
+      win_num = nwindows;
     }
     virtual ~Sampler() {}
     bool not_init() {
-        return (x_start == x_end || y_start == y_end || win_num == 0);
+      return (x_start == x_end || y_start == y_end || win_num == 0);
     }
     // 获取采样点总数
     virtual int get_sampler_count() = 0;
@@ -40,6 +41,9 @@ public:
     int x_start, y_start, x_end, y_end;
     // 采样子窗口数, 默认情况下一个pixel一个窗口
     int win_num;
-};
+  };
+
+}
+
 
 #endif //PBRE_SAMPLER_SAMPLER_H

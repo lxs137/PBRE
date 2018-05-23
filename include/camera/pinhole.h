@@ -10,20 +10,22 @@
 
 #include "camera.h"
 
-// 小孔成像相机采用透视投影
-class PinHoleCamera : Camera
-{
-public:
+namespace pbre {
+  // 小孔成像相机采用透视投影
+  class PinHoleCamera : Camera
+  {
+  public:
     PinHoleCamera():Camera(), raster2Screen(), screen2Raster(), screen2Camera(),
                     camera2Screen(), raster2Camera(), camera2Raster() {}
     PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
                   float y_fov_degree, float d, ViewPlane *vp);
     virtual ~PinHoleCamera() {}
     virtual void generate_ray(CameraSample &sample, Ray &ray);
-private:
+  private:
     Transform raster2Screen, screen2Raster;
     Transform screen2Camera, camera2Screen;
     Transform raster2Camera, camera2Raster;
-};
+  };
+}
 
 #endif //PBRE_CAMERA_PINHOLE_H

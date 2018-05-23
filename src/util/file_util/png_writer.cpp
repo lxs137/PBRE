@@ -5,6 +5,8 @@
 
 #include <cstring>
 
+#include "file_util.h"
+
 // 生成多项式为0xEDB88320
 static const unsigned int crc32_table[256] = {
         0x00000000L, 0x77073096L, 0xee0e612cL, 0x990951baL,
