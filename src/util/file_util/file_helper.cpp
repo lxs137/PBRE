@@ -238,16 +238,16 @@ namespace pbre {
   }
 
 
-  void write_png_file(int image_x, int image_y, int **rgb, const std::string &filename) {
+  void write_png_file(int image_x, int image_y, uint8_t **rgb, const std::string &filename) {
     unsigned char *png_file_data;
     unsigned char *image_data = new unsigned char[image_x * image_y * 3];
     int pixels_num = image_x * image_y;
     int image_data_index = 0;
     for (int i = 0; i < pixels_num; i++) {
       image_data_index = i * 3;
-      image_data[image_data_index] = (unsigned char) Clamp(rgb[i][0], 0, 255);
-      image_data[image_data_index + 1] = (unsigned char) Clamp(rgb[i][1], 0, 255);
-      image_data[image_data_index + 2] = (unsigned char) Clamp(rgb[i][2], 0, 255);
+      image_data[image_data_index] = rgb[i][0];
+      image_data[image_data_index + 1] = rgb[i][1];
+      image_data[image_data_index + 2] = rgb[i][2];
     }
     int png_file_len;
     png_file_data = get_png_file_data(image_x, image_y, image_data, &png_file_len);

@@ -52,6 +52,15 @@ namespace pbre {
       return value;
   }
 
+  inline float Clamp(const float value, const float low, const float high) {
+    if (value <= low)
+      return low;
+    else if (value >= high)
+      return high;
+    else
+      return value;
+  }
+
   inline int RandomInt(const int min, const int max) {
     if (min >= max)
       return min;
@@ -62,7 +71,7 @@ namespace pbre {
   inline float RandomFloat(const float min, const float max) {
     if (min >= max)
       return min;
-    int range = max - min;
+    float range = max - min;
     return (rand() / (float) RAND_MAX * range) + min;
   }
 

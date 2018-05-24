@@ -6,8 +6,8 @@
 
 namespace pbre {
   PinHoleCamera::PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
-                               float y_fov_degree, float d, ViewPlane *vp):Camera(LookAt(eye, lookat, up), vp) {
-    view_plane = vp;
+                               float y_fov_degree, float d, std::shared_ptr<ViewPlane> vp):Camera(LookAt(eye, lookat, up), vp) {
+    viewPlane = vp;
 
     // 透视投影变换
     Matrix4_4 perspective(1, 0, 0, 0,
@@ -21,7 +21,7 @@ namespace pbre {
     screen2Camera = camera2Screen.Inverse();
 
     // 透视投影的缩放将y方向投影到[-1, 1], 还需计算投影后x方向上的取值范围
-    float x_resolution = (float)view_plane->x_resolution, y_resolution = (float)view_plane->y_resolution;
+    float x_resolution = (float)viewPlane->x_resolution, y_resolution = (float)viewPlane->y_resolution;
     float scale_x = x_resolution/y_resolution, scale_y = 1.f;
     screen2Raster = Transform(Scale(x_resolution, y_resolution, 1.f)*
                               Scale(1.f/(2.f*scale_x), -0.5f, 1.f)*

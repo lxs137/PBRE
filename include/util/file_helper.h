@@ -16,7 +16,7 @@ namespace pbre {
   TriMesh *create_mesh_from_obj(Transform &obj_to_world, const char *filename);
 
   //void parse_obj2polygon(std::vector<Polygon> &shape, const char *filename);
-  void write_png_file(int image_x, int image_y, int **rgb, const std::string &filename);
+  void write_png_file(int image_x, int image_y, uint8_t **rgb, const std::string &filename);
 }
 
 #endif //PBRE_UTIL_FILE_HELPER_H

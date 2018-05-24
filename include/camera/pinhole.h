@@ -8,6 +8,8 @@
 #define NEAR_PLANE 1e-2f   // 近平面与观察点的距离
 #define FAR_PLANE 1000.f   // 远平面与观察点的距离
 
+#include <memory>
+
 #include "camera.h"
 
 namespace pbre {
@@ -18,7 +20,7 @@ namespace pbre {
     PinHoleCamera():Camera(), raster2Screen(), screen2Raster(), screen2Camera(),
                     camera2Screen(), raster2Camera(), camera2Raster() {}
     PinHoleCamera(const Point3D &eye, const Point3D &lookat, const Vector3D &up,
-                  float y_fov_degree, float d, ViewPlane *vp);
+                  float y_fov_degree, float d, std::shared_ptr<ViewPlane> vp);
     virtual ~PinHoleCamera() {}
     virtual void generate_ray(CameraSample &sample, Ray &ray);
   private:

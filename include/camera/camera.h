@@ -5,7 +5,9 @@
 #ifndef PBRE_CAMERA_CAMERA_H
 #define PBRE_CAMERA_CAMERA_H
 
-#include "viewplane.h"
+#include <memory>
+
+#include "camera/viewplane.h"
 #include "sampler/sample.h"
 #include "util/transform.h"
 #include "util/geometry.h"
@@ -15,16 +17,15 @@ namespace pbre {
   {
   public:
     // method
-    Camera():cam2World(), world2Cam() { view_plane = NULL; }
-    // TODO: Constructor ViewPlane Directly
-    Camera(const Transform &world_to_camera, ViewPlane *vp):
-        cam2World(world_to_camera.Inverse()), world2Cam(world_to_camera) {
-      view_plane = vp;
+    Camera():cam2World(), world2Cam() { viewPlane = nullptr; }
+    Camera(const Transform &world2Camera, std::shared_ptr<ViewPlane> vp):
+        cam2World(world2Camera.Inverse()), world2Cam(world2Camera) {
+      viewPlane = vp;
     }
     virtual ~Camera() {}
     virtual void generate_ray(CameraSample &sample, Ray &ray) = 0;
     // value
-    ViewPlane *view_plane;
+    std::shared_ptr<ViewPlane> viewPlane;
     Transform cam2World, world2Cam;
   };
 }

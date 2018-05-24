@@ -54,16 +54,16 @@ stats :
 	find $(TEST_DIR) $(SRC_DIR) $(INCLUDE_DIR) -name "*.cpp" -o -name "*.h" | xargs wc -l
 .PHONY : stats
 
-deploy : clean
+commit : clean
 	git add .
 	git commit -m "$(tag)"
 	git push
-.PHONY : deploy
+.PHONY : commit
 
 help :
 	@echo "Some Valid Targets For This Makefile:"
 	@echo "... engine"
 	@echo "... clean"
 	@echo "... stats"
-	@echo "... tag=\"\" deploy"
+	@echo "... tag=\"\" commit"
 .PHONY : help
