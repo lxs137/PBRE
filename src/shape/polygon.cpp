@@ -5,7 +5,7 @@
 #include "shape/polygon.h"
 
 namespace pbre {
-  BBox Polygon::get_BBox() {
+  BBox Polygon::getBBox() {
     Point3D p_min = Point3D(vertics[0]), p_max = Point3D(vertics[0]);
     for (Point3D p : vertics) {
       p_min.x = min(p_min.x, p.x), p_max.x = max(p_max.x, p.x);

@@ -38,7 +38,7 @@ namespace pbre {
       return vertics;
     }
 
-    virtual BBox get_BBox();
+    virtual BBox getBBox();
 
     virtual bool intersectP(const Ray &ray);
 

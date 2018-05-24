@@ -5,8 +5,8 @@
 #ifndef PBRE_UTIL_TRANSFORM_H
 #define PBRE_UTIL_TRANSFORM_H
 
-#include "geometry.h"
-#include "ray.h"
+#include "base/geometry.h"
+#include "base/ray.h"
 
 namespace pbre {
   class Matrix4_4 {
@@ -126,6 +126,8 @@ namespace pbre {
   Normal operator()(const Normal &n);
 
   Ray operator()(const Ray &ray);
+
+  BBox operator()(const BBox &box);
 
   private:
   // value

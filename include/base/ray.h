@@ -1,9 +1,9 @@
-#ifndef PBRE_UTIL_RAY_H
-#define PBRE_UTIL_RAY_H
+#ifndef PBRE_BASE_RAY_H
+#define PBRE_BASE_RAY_H
 
 #define RAY_T_MIN 1e-3
 
-#include "geometry.h"
+#include "base/geometry.h"
 
 namespace pbre {
   class Ray {
@@ -43,4 +43,4 @@ namespace pbre {
   };
 }
 
-#endif // PBRE_UTIL_RAY_H
+#endif // PBRE_BASE_RAY_H

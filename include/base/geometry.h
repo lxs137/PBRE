@@ -1,9 +1,9 @@
-#ifndef PBRE_UTIL_GEOMETRY_H
-#define PBRE_UTIL_GEOMETRY_H
+#ifndef PBRE_BASE_GEOMETRY_H
+#define PBRE_BASE_GEOMETRY_H
 
 #include <cmath>
 
-#include "math_func.h"
+#include "util/math_func.h"
 
 namespace pbre {
   class Vector3D {
@@ -258,6 +258,8 @@ namespace pbre {
   // 默认包围盒 p_min > p_max
   BBox() : p_min(INFINITY, INFINITY, INFINITY), p_max(-INFINITY, -INFINITY, -INFINITY) {}
 
+  BBox(const Point3D &p): p_min(p), p_max(p) {}
+
   BBox(const Point3D &p1, const Point3D &p2) {
     float x_min = min(p1.x, p2.x), x_max = max(p1.x, p2.x),
       y_min = min(p1.y, p2.y), y_max = max(p1.y, p2.y),
@@ -390,4 +392,4 @@ namespace pbre {
   }
 }
 
-#endif // PBRE_UTIL_GEOMETRY_H
+#endif // PBRE_BASE_GEOMETRY_H

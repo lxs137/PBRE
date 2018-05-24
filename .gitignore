@@ -3,6 +3,8 @@ cmake_install.cmake
 CMakeFiles/
 cmake-build-debug/
 
+*.dSYM/
+
 .idea/
 output/
 target/

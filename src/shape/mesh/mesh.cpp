@@ -72,7 +72,7 @@ namespace pbre {
     }
   }
 
-  BBox TriMesh::get_BBox() {
+  BBox TriMesh::getBBox() {
     BBox bound;
     for (int i = 0; i < num_vertic; i++)
       bound.update(vertics[i]);

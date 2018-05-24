@@ -22,7 +22,7 @@ namespace pbre {
     TriMesh(int nvert, int nface, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
             std::vector<Normal> &ns, std::vector<std::array<float, 2>> &texture);
     void Triangulate(std::vector<std::vector<int>> &faces, int points_per_face);
-    virtual BBox get_BBox(); // 默认得到世界坐标下的包围盒
+    virtual BBox getBBox(); // 默认得到世界坐标下的包围盒
     virtual bool intersectP(const Ray &ray);
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
     ~TriMesh() {

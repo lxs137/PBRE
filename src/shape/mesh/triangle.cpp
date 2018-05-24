@@ -7,7 +7,7 @@
 #include "shape/mesh.h"
 
 namespace pbre {
-  BBox Triangle::get_BBox() {
+  BBox Triangle::getBBox() {
     if (owner == nullptr)
       return BBox();
     BBox b;

@@ -1,6 +1,6 @@
 CC = g++
 # CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++ -O3
-CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++
+CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++ -ggdb3
 LDFLAGS = -L /usr/local/lib
 SRC_DIR = src
 INCLUDE_DIR = include
@@ -46,6 +46,7 @@ clean :
 	rm -rf $(TARGET_DIR)
 	rm -rf $(TEST_TARGET_DIR)
 	rm -f $(BIN)
+	rm -rf $(BIN).dSYM
 	rm -f $(TEST_BIN)
 	rm -rf $(TEST_BIN).dSYM
 .PHONY : clean

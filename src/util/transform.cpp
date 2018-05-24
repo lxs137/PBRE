@@ -35,6 +35,19 @@ namespace pbre {
     return Ray((*this)(ray.o), (*this)(ray.d));
   }
 
+  BBox Transform::operator()(const pbre::BBox &box) {
+    BBox res((*this)(box.p_min));
+    res.update(Point3D(box.p_min.x, box.p_max.y, box.p_min.z));
+    res.update(Point3D(box.p_max.x, box.p_min.y, box.p_min.z));
+    res.update(Point3D(box.p_max.x, box.p_max.y, box.p_min.z));
+
+    res.update(Point3D(box.p_min.x, box.p_min.y, box.p_max.z));
+    res.update(Point3D(box.p_max.x, box.p_min.y, box.p_max.z));
+    res.update(Point3D(box.p_min.x, box.p_max.y, box.p_max.z));
+    res.update(Point3D(box.p_max.x, box.p_max.y, box.p_max.z));
+    return res;
+  }
+
   Matrix4_4 Matrix4_4::Inverse() {
     Matrix4_4 inver = Matrix4_4();
     float norm_1 = 1 / this->Norm();

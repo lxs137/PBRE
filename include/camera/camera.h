@@ -10,7 +10,7 @@
 #include "camera/viewplane.h"
 #include "sampler/sample.h"
 #include "util/transform.h"
-#include "util/geometry.h"
+#include "base/geometry.h"
 
 namespace pbre {
   class Camera

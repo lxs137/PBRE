@@ -2,10 +2,10 @@
 // Created by lxs on 17-3-21.
 //
 
-#ifndef PBRE_UTIL_INTERSECT_DETAIL_H
-#define PBRE_UTIL_INTERSECT_DETAIL_H
+#ifndef PBRE_BASE_INTERSECT_DETAIL_H
+#define PBRE_BASE_INTERSECT_DETAIL_H
 
-#include "geometry.h"
+#include "base/geometry.h"
 
 namespace pbre {
   class Shape;
@@ -30,4 +30,4 @@ namespace pbre {
   };
 }
 
-#endif //PBRE_UTIL_INTERSECT_DETAIL_H
+#endif //PBRE_BASE_INTERSECT_DETAIL_H

@@ -32,7 +32,7 @@ namespace pbre {
       p = plane->p, n = plane->n;
     }
 
-    virtual BBox get_BBox();
+    virtual BBox getBBox();
     virtual bool intersectP(const Ray &ray);
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
 

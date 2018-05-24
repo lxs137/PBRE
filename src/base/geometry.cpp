@@ -2,9 +2,9 @@
 // Created by lxs on 17-3-22.
 //
 
-#include "util/geometry.h"
+#include "base/geometry.h"
 
-#include "util/ray.h"
+#include "base/ray.h"
 
 namespace pbre {
   bool BBox::intersectP(const Ray &ray) {

@@ -21,7 +21,7 @@ namespace pbre {
       v1 = index_1, v2 = index_2, v3 = index_3;
     }
 
-    virtual BBox get_BBox(); // 默认得到世界坐标下的包围盒
+    virtual BBox getBBox(); // 默认得到世界坐标下的包围盒
     virtual bool intersectP(const Ray &ray);
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
 

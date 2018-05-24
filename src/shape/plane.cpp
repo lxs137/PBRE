@@ -5,7 +5,7 @@
 #include "shape/plane.h"
 
 namespace pbre {
-  BBox Plane::get_BBox() {
+  BBox Plane::getBBox() {
     return BBox(Point3D(-INFINITY, -INFINITY, -INFINITY), Point3D(INFINITY, INFINITY, INFINITY));
   }
 
