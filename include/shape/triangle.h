@@ -21,9 +21,10 @@ namespace pbre {
       v1 = index_1, v2 = index_2, v3 = index_3;
     }
 
-    virtual BBox getBBox(); // 默认得到世界坐标下的包围盒
-    virtual bool intersectP(const Ray &ray);
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
+    BBox getBBox() const ; // 默认得到世界坐标下的包围盒
+    bool intersectP(const Ray &ray) const ;
+    bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
+    void getUVs(Point2D uv[3]) const;
 
   private:
     TriMesh *owner;

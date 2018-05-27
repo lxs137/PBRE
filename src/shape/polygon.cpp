@@ -5,7 +5,7 @@
 #include "shape/polygon.h"
 
 namespace pbre {
-  BBox Polygon::getBBox() {
+  BBox Polygon::getBBox() const {
     Point3D p_min = Point3D(vertics[0]), p_max = Point3D(vertics[0]);
     for (Point3D p : vertics) {
       p_min.x = min(p_min.x, p.x), p_max.x = max(p_max.x, p.x);
@@ -15,7 +15,7 @@ namespace pbre {
     return BBox(p_min, p_min);
   }
 
-  bool Polygon::intersectP(const Ray &ray) {
+  bool Polygon::intersectP(const Ray &ray) const {
     float parallel_test = AbsDot(ray.d, this->n);
     // 当多边形所在平面与光线平行时,多边形与光线一点没有交点
     if (parallel_test < INTERSECT_TEST_PRECISION)
@@ -57,7 +57,7 @@ namespace pbre {
 //        return false;
   }
 
-  bool Polygon::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
+  bool Polygon::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const {
     float parallel_test = AbsDot(ray.d, this->n);
     // 当多边形所在平面与光线平行时,多边形与光线一点没有交点
     if (parallel_test < 1e-5)
@@ -92,8 +92,8 @@ namespace pbre {
         if (intersect_num % 2 == 0)
           return false;
         else {
-          info.hit_p = hit_p;
-          info.hit_n = this->n;
+          info.hitP = hit_p;
+          info.hitN = this->n;
           info.shape = this;
           return true;
         }

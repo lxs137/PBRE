@@ -9,12 +9,13 @@ namespace pbre {
 
   class Shape {
   public:
-    virtual BBox getBBox() = 0; // 默认得到世界坐标下的包围盒
     virtual ~Shape() {}
 
-    virtual bool intersectP(const Ray &ray) = 0;
+    virtual BBox getBBox() const = 0; // 默认得到世界坐标下的包围盒
 
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) = 0;
+    virtual bool intersectP(const Ray &ray) const = 0;
+
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const = 0;
   };
 
 }

@@ -15,25 +15,30 @@
 namespace pbre {
   class Renderable {
   public:
-    virtual BBox getBBox() = 0;
-    virtual bool intersectP(const Ray &ray) = 0;
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) = 0;
+    virtual ~Renderable() {}
+    virtual BBox getBBox() const = 0;
+    virtual bool intersectP(const Ray &ray) const = 0;
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const = 0;
   };
 
   class RenderObj : public Renderable {
   public:
-    BBox getBBox() {
+    BBox getBBox() const {
       return shape->getBBox();
     }
+    bool intersectP(const Ray &ray) const ;
+    bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
   private:
     std::shared_ptr<Shape> shape;
   };
 
   class TransRenderObj : public Renderable {
   public:
-    BBox getBBox() {
+    BBox getBBox() const {
       return world2Obj(renderObj->getBBox());
     }
+    bool intersectP(const Ray &ray) const ;
+    bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
   private:
     std::shared_ptr<RenderObj> renderObj;
     Transform world2Obj;

@@ -17,26 +17,31 @@ namespace pbre {
   {
   public:
     // method
-    TriMesh():Shape() {}
+    TriMesh():Shape() {
+      vertics = nullptr;
+      index = nullptr;
+      normals = nullptr;
+      texUV = nullptr;
+    }
     TriMesh(const TriMesh &mesh);
     TriMesh(int nvert, int nface, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
             std::vector<Normal> &ns, std::vector<std::array<float, 2>> &texture);
     void Triangulate(std::vector<std::vector<int>> &faces, int points_per_face);
-    virtual BBox getBBox(); // 默认得到世界坐标下的包围盒
-    virtual bool intersectP(const Ray &ray);
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
+    virtual BBox getBBox() const ; // 默认得到世界坐标下的包围盒
+    virtual bool intersectP(const Ray &ray) const ;
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
     ~TriMesh() {
       delete[] vertics;
       delete[] index;
       delete[] normals;
-      delete[] tex_coord;
+      delete[] texUV;
     }
     // value
     int num_vertic, num_tri;
     Point3D *vertics;
     std::array<int, 3> *index;
     Normal *normals;
-    std::array<float, 2> *tex_coord;
+    Point2D *texUV;
   };
 }
 

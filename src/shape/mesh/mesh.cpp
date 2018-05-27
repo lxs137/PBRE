@@ -7,7 +7,7 @@
 
 namespace pbre {
   TriMesh::TriMesh(const TriMesh &mesh) : Shape() {
-    vertics = NULL, index = NULL, normals = NULL, tex_coord = NULL;
+    vertics = NULL, index = NULL, normals = NULL, texUV = NULL;
     this->num_tri = mesh.num_tri;
     this->num_vertic = mesh.num_vertic;
     if (mesh.vertics) {
@@ -22,20 +22,20 @@ namespace pbre {
       normals = new Normal[num_vertic];
       memcpy(normals, mesh.normals, num_vertic * sizeof(Normal));
     }
-    if (mesh.tex_coord) {
-      tex_coord = new std::array<float, 2>[num_vertic];
-      memcpy(tex_coord, mesh.tex_coord, num_vertic * sizeof(std::array<float, 2>));
+    if (mesh.texUV) {
+      texUV = new std::array<float, 2>[num_vertic];
+      memcpy(texUV, mesh.texUV, num_vertic * sizeof(std::array<float, 2>));
     }
   }
 
 
   TriMesh::TriMesh(int nvert, int nface, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
                    std::vector<Normal> &ns, std::vector<std::array<float, 2>> &texture) {
-    vertics = NULL, index = NULL, normals = NULL, tex_coord = NULL;
+    vertics = NULL, index = NULL, normals = NULL, texUV = NULL;
     this->num_vertic = nvert;
     if (!points.empty()) {
       vertics = new Point3D[num_vertic];
-      memcpy(vertics, &points[0], num_vertic * sizeof(Point3D));
+      memcpy(vertics, points.data(), num_vertic * sizeof(Point3D));
     }
     if (!faces.empty()) {
       this->num_tri = nface;
@@ -49,12 +49,12 @@ namespace pbre {
     }
     if (!ns.empty()) {
       normals = new Normal[num_vertic];
-      memcpy(normals, &ns[0], num_vertic * sizeof(Normal));
+      memcpy(normals, ns.data(), num_vertic * sizeof(Normal));
     }
     if (!texture.empty()) {
-      tex_coord = new std::array<float, 2>[num_vertic];
+      texUV = new Point2D[num_vertic];
       for (int i = 0; i < num_vertic; i++)
-        tex_coord[i][0] = texture[i][0], tex_coord[i][1] = texture[i][1];
+        texUV[i].x = texture[i][0], texUV[i].y = texture[i][1];
     }
   }
 
@@ -72,18 +72,18 @@ namespace pbre {
     }
   }
 
-  BBox TriMesh::getBBox() {
+  BBox TriMesh::getBBox() const {
     BBox bound;
     for (int i = 0; i < num_vertic; i++)
       bound.update(vertics[i]);
     return bound;
   }
 
-  bool TriMesh::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
+  bool TriMesh::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const {
     return false;
   }
 
-  bool TriMesh::intersectP(const Ray &ray) {
+  bool TriMesh::intersectP(const Ray &ray) const {
     return false;
   }
 }

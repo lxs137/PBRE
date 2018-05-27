@@ -76,18 +76,93 @@ namespace pbre {
     return *this;
   }
 
-  float length_square() const {
+  float lengthSquare() const {
     return (x * x + y * y + z * z);
   }
 
   float length() const {
-    return std::sqrt(length_square());
+    return std::sqrt(lengthSquare());
   }
 
   // value
   float x, y, z;
   };
 
+  class Vector2D {
+  public:
+    Vector2D(): x(0), y(0) {}
+
+    Vector2D(float _x, float _y): x(_x), y(_y) {}
+
+    Vector2D(const Vector2D &v): x(v.x), y(v.y) {}
+
+    bool hasNan() const {
+      return std::isnan(x) || std::isnan(y);
+    }
+
+    bool operator!=(const Vector2D &v) const {
+      return !floatEq(x, v.x) || !floatEq(y, v.y);
+    }
+
+    bool operator==(const Vector2D &v) const {
+      return floatEq(x, v.x) && floatEq(y, v.y);
+    }
+
+    Vector2D &operator=(const Vector2D &v) {
+      x = v.x, y = v.y;
+      return *this;
+    }
+
+    Vector2D operator-() const {
+      return Vector2D(-x, -y);
+    }
+
+    Vector2D operator+(const Vector2D &v) const {
+      return Vector2D(x + v.x, y + v.y);
+    }
+
+    Vector2D operator-(const Vector2D &v) const {
+      return Vector2D(x - v.x, y - v.y);
+    }
+
+    Vector2D operator*(float f) const {
+      return Vector2D(x * f, y * f);
+    }
+
+    Vector2D operator/(float f) const {
+      return Vector2D(x / f, y / f);
+    }
+
+    Vector2D &operator+=(const Vector2D &v) {
+      x += v.x, y += v.y;
+      return *this;
+    }
+
+    Vector2D &operator-=(const Vector2D &v) {
+      x -= v.x, y -= v.y;
+      return *this;
+    }
+
+    Vector2D &operator*=(float f) {
+      x *= f, y *= f;
+      return *this;
+    }
+
+    Vector2D &operator/=(float f) {
+      x /= f, y /= f;
+      return *this;
+    }
+
+    float lengthSquare() const {
+      return x * x + y * y;
+    }
+
+    float length() const {
+      return std::sqrtf(lengthSquare());
+    }
+
+    float x, y;
+  };
 
   class Point3D {
   public:
@@ -161,6 +236,73 @@ namespace pbre {
 
   // value
   float x, y, z;
+  };
+
+
+  class Point2D {
+  public:
+    Point2D(): x(0), y(0) {}
+    Point2D(float _x, float _y): x(_x), y(_y) {}
+    Point2D(const Point2D &p): x(p.x), y(p.y) {}
+
+    bool hasNan() const {
+      return std::isnan(x) || std::isnan(y);
+    }
+
+    bool operator==(const Point2D &p) const {
+      return floatEq(x, p.x) && floatEq(y, p.y);
+    }
+
+    bool operator!=(const Point2D &p) const {
+      return !floatEq(x, p.x) || !floatEq(y, p.y);
+    }
+
+    Point2D &operator=(const Point2D &p) {
+      x = p.x, y = p.y;
+      return *this;
+    }
+
+    Point2D operator+(const Vector2D &v) const {
+      return Point2D(x + v.x, y + v.y);
+    }
+
+    Point2D operator-(const Vector2D &v) const {
+      return Point2D(x - v.x, y - v.y);
+    }
+
+    Vector2D operator-(const Point2D &p) const {
+      return Vector2D(x - p.x, y - p.y);
+    }
+
+    Point2D operator*(float f) const {
+      return Point2D(x * f, y * f);
+    }
+
+    Point2D operator/(float f) const {
+      return Point2D(x / f, y / f);
+    }
+
+    Point2D &operator+=(const Vector2D &v) {
+      x += v.x, y += v.y;
+      return *this;
+    }
+
+    Point2D &operator-=(const Vector2D &v) {
+      x -= v.x, y -= v.y;
+      return *this;
+    }
+
+    Point2D &operator*=(float f) {
+      x *= f, y *= f;
+      return *this;
+    }
+
+    Point2D &operator/=(float f) {
+      x /= f, y /= f;
+      return *this;
+    }
+
+    float x, y;
   };
 
 
@@ -238,12 +380,12 @@ namespace pbre {
     return *this;
   }
 
-  float length_square() const {
+  float lengthSquare() const {
     return (x * x + y * y + z * z);
   }
 
   float length() const {
-    return std::sqrt(length_square());
+    return std::sqrt(lengthSquare());
   }
 
   // value
@@ -352,7 +494,7 @@ namespace pbre {
 
   inline float distance_square(Point3D &p1, Point3D &p2) {
     Vector3D dis = p1 - p2;
-    return dis.length_square();
+    return dis.lengthSquare();
   }
 
   inline float distance(Point3D &p1, Point3D &p2) {

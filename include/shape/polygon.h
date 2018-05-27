@@ -11,11 +11,6 @@
 
 namespace pbre {
 
-  struct Point2D {
-    float x;
-    float y;
-  };
-
 // 这个多边形特指所有顶点共面的多边形
   class Polygon : public Shape {
   public:
@@ -38,11 +33,11 @@ namespace pbre {
       return vertics;
     }
 
-    virtual BBox getBBox();
+    virtual BBox getBBox() const ;
 
-    virtual bool intersectP(const Ray &ray);
+    virtual bool intersectP(const Ray &ray) const ;
 
-    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info);
+    virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
 
   private:
     Normal n;

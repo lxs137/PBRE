@@ -7,7 +7,7 @@
 #include "shape/mesh.h"
 
 namespace pbre {
-  BBox Triangle::getBBox() {
+  BBox Triangle::getBBox() const {
     if (owner == nullptr)
       return BBox();
     BBox b;
@@ -25,7 +25,7 @@ namespace pbre {
   // t = Dot(Q, E3)/Dot(P, E2)
   // u = Dot(P, T)/Dot(P, E2)
   // v = Dot(Q, ray.d)/Dot(P, E2)
-  bool Triangle::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) {
+  bool Triangle::intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const {
     Point3D &p1 = owner->vertics[v1], &p2 = owner->vertics[v2], &p3 = owner->vertics[v3];
     Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, E3), Q, T;
     float parallel_test = Dot(P, E2), parallel_1, u, v;
@@ -48,14 +48,14 @@ namespace pbre {
       return false;
     t_hit = t;
     // 计算交点坐标
-    info.hit_p = ray(t_hit);
+    info.hitP = ray(t_hit);
     info.shape = this;
-    info.hit_n = Normal();
+    info.hitN = Normal();
 //    info.hit_n = Normalize(owner->normals[v1] + owner->normals[v2] + owner->normals[v3]);
     return true;
   }
 
-  bool Triangle::intersectP(const Ray &ray) {
+  bool Triangle::intersectP(const Ray &ray) const {
     Point3D &p1 = owner->vertics[v1], &p2 = owner->vertics[v2], &p3 = owner->vertics[v3];
     Vector3D E2 = p2 - p1, E3 = p3 - p1, P = Cross(ray.d, E3), Q, T;
     float parallel_test = Dot(P, E2), parallel_1, u, v;
@@ -77,5 +77,17 @@ namespace pbre {
     if (t < ray.min_t || t > ray.max_t)
       return false;
     return true;
+  }
+
+  void Triangle::getUVs(pbre::Point2D *uv) const {
+    if(owner->texUV) {
+      uv[0] = Point2D(owner->texUV[v1]);
+      uv[1] = Point2D(owner->texUV[v2]);
+      uv[2] = Point2D(owner->texUV[v3]);
+    } else {
+      uv[0] = Point2D(0.f, 0.f);
+      uv[1] = Point2D(1.0f, 0.f);
+      uv[2] = Point2D(1.f, 1.f);
+    }
   }
 }

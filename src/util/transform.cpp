@@ -5,12 +5,12 @@
 #include "util/transform.h"
 
 namespace pbre {
-  Transform Transform::operator*(const Transform &t2) {
+  Transform Transform::operator*(const Transform &t2) const {
     Matrix4_4 new_matrix = this->matrix * (t2.matrix), new_inver = t2.inverse * (this->inverse);
     return Transform(new_matrix, new_inver);
   }
 
-  Point3D Transform::operator()(const Point3D &p) {
+  Point3D Transform::operator()(const Point3D &p) const {
     float p_array[4] = {p.x, p.y, p.z, 1.f}, p_trans_array[4];
     this->matrix.trans(p_array, p_trans_array);
     if (std::fabs(p_trans_array[3] - 1.f) < 1e-3)
@@ -19,23 +19,23 @@ namespace pbre {
       return Point3D(p_trans_array[0], p_trans_array[1], p_trans_array[2]) / p_trans_array[3];
   }
 
-  Vector3D Transform::operator()(const Vector3D &v) {
+  Vector3D Transform::operator()(const Vector3D &v) const {
     float v_array[4] = {v.x, v.y, v.z, 0.f}, v_trans_array[4];
     this->matrix.trans(v_array, v_trans_array);
     return Vector3D(v_trans_array[0], v_trans_array[1], v_trans_array[2]);
   }
 
-  Normal Transform::operator()(const Normal &n) {
+  Normal Transform::operator()(const Normal &n) const {
     return Normal(inverse.m[0][0] * n.x + inverse.m[1][0] * n.y + inverse.m[2][0] * n.y,
                   inverse.m[0][1] * n.x + inverse.m[1][1] * n.y + inverse.m[2][1] * n.y,
                   inverse.m[0][2] * n.x + inverse.m[1][2] * n.y + inverse.m[2][2] * n.y);
   }
 
-  Ray Transform::operator()(const Ray &ray) {
+  Ray Transform::operator()(const Ray &ray) const {
     return Ray((*this)(ray.o), (*this)(ray.d));
   }
 
-  BBox Transform::operator()(const pbre::BBox &box) {
+  BBox Transform::operator()(const pbre::BBox &box) const {
     BBox res((*this)(box.p_min));
     res.update(Point3D(box.p_min.x, box.p_max.y, box.p_min.z));
     res.update(Point3D(box.p_max.x, box.p_min.y, box.p_min.z));
@@ -240,5 +240,13 @@ namespace pbre {
                         right.z, newup.z, dir.z, pos.z,
                         0, 0, 0, 1);
     return Transform(cam2world.Inverse(), cam2world);
+  }
+
+  Transform AnimatedTransform::interpolate(float t) const {
+    if(!isAnimated || t < startTime)
+      return startTrans;
+    else if(t > endTime)
+      return endTrans;
+    return startTrans;
   }
 }

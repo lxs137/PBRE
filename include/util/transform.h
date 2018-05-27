@@ -41,7 +41,7 @@ namespace pbre {
         m[i][j] = matrix.m[i][j];
   }
 
-  Matrix4_4 operator+(const Matrix4_4 &matrix) {
+  Matrix4_4 operator+(const Matrix4_4 &matrix) const {
     Matrix4_4 new_matrix;
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
@@ -49,7 +49,7 @@ namespace pbre {
     return new_matrix;
   }
 
-  Matrix4_4 operator-(const Matrix4_4 &matrix) {
+  Matrix4_4 operator-(const Matrix4_4 &matrix) const {
     Matrix4_4 new_matrix;
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
@@ -70,7 +70,7 @@ namespace pbre {
     return mul;
   }
 
-  Matrix4_4 operator*(const float f) {
+  Matrix4_4 operator*(const float f) const {
     Matrix4_4 new_matrix;
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
@@ -78,7 +78,7 @@ namespace pbre {
     return new_matrix;
   }
 
-  Matrix4_4 operator/(const float f) {
+  Matrix4_4 operator/(const float f) const {
     Matrix4_4 new_matrix;
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
@@ -86,11 +86,25 @@ namespace pbre {
     return new_matrix;
   }
 
+  bool operator==(const Matrix4_4 &other) const {
+    for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+        if(!floatEq(m[i][j], other.m[i][j])) return false;
+    return true;
+  }
+
+  bool operator!=(const Matrix4_4 &other) const {
+    for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+        if(!floatEq(m[i][j], other.m[i][j])) return true;
+    return false;
+  }
+
   Matrix4_4 Inverse();
 
   float Norm();
 
-  void trans(float f[4], float f_result[4]) {
+  void trans(float f[4], float f_result[4]) const {
     // f代表一个列向量
     f_result[0] = m[0][0] * f[0] + m[0][1] * f[1] + m[0][2] * f[2] + m[0][3] * f[3];
     f_result[1] = m[1][0] * f[0] + m[1][1] * f[1] + m[1][2] * f[2] + m[1][3] * f[3];
@@ -117,21 +131,40 @@ namespace pbre {
     return Transform(inverse, matrix);
   }
 
-  Transform operator*(const Transform &t2);
+  Transform operator*(const Transform &t2) const ;
 
-  Point3D operator()(const Point3D &p);
+  Point3D operator()(const Point3D &p) const ;
 
-  Vector3D operator()(const Vector3D &v);
+  Vector3D operator()(const Vector3D &v) const ;
 
-  Normal operator()(const Normal &n);
+  Normal operator()(const Normal &n) const ;
 
-  Ray operator()(const Ray &ray);
+  Ray operator()(const Ray &ray) const ;
 
-  BBox operator()(const BBox &box);
+  BBox operator()(const BBox &box) const ;
+
+  bool operator==(const Transform &other) const {
+    return matrix == other.matrix;
+  }
+
+  bool operator!=(const Transform &other) const {
+    return matrix != other.matrix;
+  }
 
   private:
   // value
   Matrix4_4 matrix, inverse;  //变换矩阵和逆变换矩阵
+  };
+
+  class AnimatedTransform {
+  public:
+    AnimatedTransform(float startT, float endT, Transform &start, Transform &end)
+        : startTime(startT), endTime(endT), startTrans(start), endTrans(end), isAnimated(startTrans != endTrans) {}
+    Transform interpolate(float t) const ;
+  private:
+    const float startTime, endTime;
+    const Transform startTrans, endTrans;
+    const bool isAnimated;
   };
 
 

@@ -41,6 +41,9 @@ dir :
 	@mkdir -p $(TEST_TARGET_DIR)
 .PHONY : dir
 
+memcheck : engine
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions="${VALGRIND_SUPP}" $(BIN)
+.PHONY : memcheck
 
 clean :
 	rm -rf $(TARGET_DIR)
