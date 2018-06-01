@@ -2,6 +2,7 @@
 // Created by lxs on 17-3-27.
 //
 
+#include <iomanip>
 #include "util/transform.h"
 
 namespace pbre {
@@ -248,5 +249,36 @@ namespace pbre {
     else if(t > endTime)
       return endTrans;
     return startTrans;
+  }
+
+  std::ostream& operator<<(std::ostream &os, const Matrix4_4 &matrix) {
+    os << "Matrix4_4: " << std::endl;
+    std::cout.setf(std::ios::left);
+    os << std::setw(4) << matrix.m[0][0] << " "
+       << std::setw(4) << matrix.m[0][1] << " "
+       << std::setw(4) << matrix.m[0][2] << " "
+       << std::setw(4) << matrix.m[0][3] << std::endl;
+
+    os << std::setw(4) << matrix.m[1][0] << " "
+       << std::setw(4) << matrix.m[1][1] << " "
+       << std::setw(4) << matrix.m[1][2] << " "
+       << std::setw(4) << matrix.m[1][3] << std::endl;
+
+    os << std::setw(4) << matrix.m[2][0] << " "
+       << std::setw(4) << matrix.m[2][1] << " "
+       << std::setw(4) << matrix.m[2][2] << " "
+       << std::setw(4) << matrix.m[2][3] << std::endl;
+
+    os << std::setw(4) << matrix.m[3][0] << " "
+       << std::setw(4) << matrix.m[3][1] << " "
+       << std::setw(4) << matrix.m[3][2] << " "
+       << std::setw(4) << matrix.m[3][3] << std::endl;
+    return os;
+  }
+
+  std::ostream& operator<<(std::ostream &os, const Transform &trans) {
+    os << "Transform-" << trans.matrix
+       << "Transform-inverse" << trans.inverse << std::endl;
+    return os;
   }
 }

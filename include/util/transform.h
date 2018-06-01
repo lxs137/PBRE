@@ -5,11 +5,14 @@
 #ifndef PBRE_UTIL_TRANSFORM_H
 #define PBRE_UTIL_TRANSFORM_H
 
+#include <iostream>
+
 #include "base/geometry.h"
 #include "base/ray.h"
 
 namespace pbre {
   class Matrix4_4 {
+    friend std::ostream& operator<<(std::ostream &os, const Matrix4_4 &matrix);
   public:
   // method
   Matrix4_4() {
@@ -119,6 +122,7 @@ namespace pbre {
 
 
   class Transform {
+    friend std::ostream& operator<<(std::ostream &os, const Transform &trans);
   public:
   // method
   Transform() : matrix(), inverse() {}
@@ -182,6 +186,10 @@ namespace pbre {
   Transform Rotate(const Vector3D &v, float radians);
 
   Transform LookAt(const Point3D &pos, const Point3D &look, const Vector3D &up);
+
+  std::ostream& operator<<(std::ostream &os, const Matrix4_4 &matrix);
+
+  std::ostream& operator<<(std::ostream &os, const Transform &trans);
 }
 
 #endif //PBRE_UTIL_TRANSFORM_H

@@ -13,6 +13,7 @@
 #include "util/transform.h"
 
 namespace pbre {
+  typedef std::array<int, 3> TriIndex;
   class TriMesh : public Shape
   {
   public:
@@ -26,7 +27,7 @@ namespace pbre {
     TriMesh(const TriMesh &mesh);
     TriMesh(int nvert, int nface, std::vector<Point3D> &points, std::vector<std::vector<int>> &faces,
             std::vector<Normal> &ns, std::vector<std::array<float, 2>> &texture);
-    void Triangulate(std::vector<std::vector<int>> &faces, int points_per_face);
+    void initFromPolygon(std::vector<std::vector<int>> &faces, int nface);
     virtual BBox getBBox() const ; // 默认得到世界坐标下的包围盒
     virtual bool intersectP(const Ray &ray) const ;
     virtual bool intersect(const Ray &ray, float &t_hit, IntersectInfo &info) const ;
@@ -39,7 +40,7 @@ namespace pbre {
     // value
     int num_vertic, num_tri;
     Point3D *vertics;
-    std::array<int, 3> *index;
+    TriIndex *index;
     Normal *normals;
     Point2D *texUV;
   };

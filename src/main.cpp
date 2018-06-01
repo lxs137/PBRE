@@ -7,14 +7,21 @@
 #include "shape/polygon.h"
 #include "util/file_helper.h"
 #include "util/color_converse.h"
+#include "util/triangulate.h"
 #include "sampler/poisson_disk.h"
 #include "sampler/multiclass_disk.h"
 
 int main(int argv, char** argc)
 {
   if(argv <= 1 || (argv >= 2 && strcmp(argc[1], "--help") == 0)) {
-    std::cout<<"usage:"<<std::endl;
-    std::cout<<"--class class_num --distance dis_1 dis_2 dis_3..."<<std::endl;
+    double vertices[7][2] = {{0.0, 0.0}, {2.0, 0.0}, {0.0, -2.0}, {1.0, -5.0}, {6.0, 0.0}, {1.0, 5.0}, {0.0, 2.0}};
+    int op[10][3], ntriangles, npoints[1] = {6};
+    ntriangles = triangulate_polygon(1, npoints, vertices, op);
+    for (int i = 0; i < ntriangles; i++) {
+      std::cout << "triangulate #" << i << ": " << op[i][0] << " " << op[i][1] << " " << op[i][2] << std::endl;
+    }
+//    std::cout<<"usage:"<<std::endl;
+//    std::cout<<"--class class_num --distance dis_1 dis_2 dis_3..."<<std::endl;
     return 0;
   } else if(strcmp(argc[1], "--class") == 0 && atoi(argc[2]) == 1 && argv >=5) {
     float distance = (float)atof(argc[4]);

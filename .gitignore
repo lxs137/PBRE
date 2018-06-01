@@ -9,3 +9,4 @@ cmake-build-debug/
 output/
 target/
 target-test/
+lib/

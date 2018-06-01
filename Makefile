@@ -1,6 +1,13 @@
-CC = g++
-# CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++ -O3
+CXX = g++
+CC = gcc
+
+# For Debug
 CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++ -ggdb3
+CFLAGS = -UCLOCK -ggdb3
+# For Release
+# CFLAGS = -UCLOCK
+# CXXFLAGS = --std=c++11 -Wall -Wfloat-equal -Weffc++ -O3
+
 LDFLAGS = -L /usr/local/lib
 SRC_DIR = src
 INCLUDE_DIR = include
@@ -9,6 +16,14 @@ SRCS = $(shell find $(SRC_DIR) -name "*.cpp")
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(TARGET_DIR)/%.o)
 HEADERS = $(shell find $(INCLUDE_DIR) -name "*.h")
 BIN = engine
+
+# Other OBJS
+LIBS_SRC_DIR = 3rdparty
+LIBS_DIR = lib
+# Triangulate
+TRIANGULATE_DIR = $(LIBS_SRC_DIR)/triangulate
+TRIANGULATE_LIB = libtriangulate.a
+TRIANGULATE_LIB_NAME = triangulate
 
 ifndef tag
 tag = $(shell date +%Y/%m/%d-%R)
@@ -30,10 +45,16 @@ default_target: help
 
 $(TARGET_DIR)/%.o : $(SRC_DIR)/%.cpp $(HEADERS)
 	@mkdir -p $(@D)
-	$(CC) $(CXXFLAGS) -I $(INCLUDE_DIR) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -I $(INCLUDE_DIR) -c $< -o $@
 
-engine : dir $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $(BIN)
+triangulate :
+	@mkdir -p $(LIBS_DIR)
+	$(MAKE) -C $(TRIANGULATE_DIR) $(TRIANGULATE_LIB)
+	cp $(TRIANGULATE_DIR)/$(TRIANGULATE_LIB) $(LIBS_DIR)
+.PHONY : triangulate
+
+engine : dir triangulate $(OBJS)
+	$(CXX) $(LDFLAGS) -L$(LIBS_DIR) -l$(TRIANGULATE_LIB_NAME) $(OBJS) -o $(BIN)
 .PHONY : engine
 
 dir :
@@ -45,7 +66,11 @@ memcheck : engine
 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions="${VALGRIND_SUPP}" $(BIN)
 .PHONY : memcheck
 
-clean :
+triangulate-clean :
+	$(MAKE) -C $(TRIANGULATE_DIR) clean
+.PHONY : triangulate-clean
+
+clean : triangulate-clean
 	rm -rf $(TARGET_DIR)
 	rm -rf $(TEST_TARGET_DIR)
 	rm -f $(BIN)
@@ -67,6 +92,8 @@ commit : clean
 help :
 	@echo "Some Valid Targets For This Makefile:"
 	@echo "... engine"
+	@echo "... triangulate"
+	@echo "... triangulate-clean"	
 	@echo "... clean"
 	@echo "... stats"
 	@echo "... tag=\"\" commit"
